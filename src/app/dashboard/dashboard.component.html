@@ -1,0 +1,41 @@
+<section>
+
+  <div class="margin-5">
+    <h1> Список туров </h1>
+  </div>
+  <div class="margin-5">
+    <a routerLink="/creating-tour"><button mat-raised-button color="primary"> Добавить</button></a>
+  </div>
+
+</section>
+<mat-divider></mat-divider>
+
+<section>
+  <div class="flex-direction-row">
+
+    <mat-card *ngFor="let tour of tours" class="margin-10">
+      <mat-card-title>
+        {{tour.startDate}}
+        <a [routerLink]="['/creating-tourist', tour.id]"><button mat-mini-fab color="primary" class="float-right">
+          <mat-icon>add</mat-icon>
+        </button></a>
+      </mat-card-title>
+
+      <mat-card-content>
+        <table cellpadding="14" cellspacing="0">
+          <tr>
+            <th>Гиды</th>
+            <th>Водители</th>
+            <th>Количество туристов</th>
+            <th>Статус тура</th>
+            <th>Крайний день</th>
+          </tr>
+          <tr>
+            <td>{{tour.guides}}</td>
+            <td>{{tour.drivers}}</td>
+          </tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>

@@ -1,0 +1,41 @@
+<section>
+  <div class="margin-5">
+    <app-back-arrow></app-back-arrow>
+  </div>
+  <div class="margin-5">
+    <h1>Добавление тура</h1>
+  </div>
+</section>
+<mat-divider></mat-divider>
+<section>
+  <mat-card>
+    <mat-card-title>Добавление нового тура</mat-card-title>
+
+    <form [formGroup]="tourForm" autocomplete="off" novalidate (ngSubmit)="createTour(tourForm.value)">
+      <mat-card-content>
+        <div class="display-flex flex-direction-column">
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" placeholder="Выберите дату начала тура" formControlName="startDate"
+              id="startDate" readonly (click)="picker.open()">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="hasError('startDate', 'required')">Дата обязательна</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="text" placeholder="Гиды через запятую" formControlName="guides" id="guides">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="text" placeholder="Водители через запятую" formControlName="drivers" id="drivers">
+            <!-- <mat-hint>Не больше 60 символов</mat-hint> -->
+            <!-- <mat-error *ngIf="hasError('guides', 'maxlength')">Вы ввели более 60 символов</mat-error> -->
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button type="button" mat-raised-button color="warn" (click)="onCancel()">Отменить</button>
+        <button mat-raised-button color="primary" [disabled]="!tourForm.valid">Создать</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</section>

@@ -1,0 +1,162 @@
+<section>
+  <div class="margin-5">
+    <app-back-arrow></app-back-arrow>
+  </div>
+  <div class="margin-5">
+    <h1>Добавление туриста в тур [дата_тура]</h1>
+  </div>
+</section>
+
+<mat-divider></mat-divider>
+
+<section>
+  <mat-card>
+    <form [formGroup]="creatingTouristForm" autocomplete="off" novalidate
+      (ngSubmit)="addTourist(creatingTouristForm.value)">
+      <mat-card-content>
+        <div class="display-flex flex-wrap justify-content-space-around">
+
+          <mat-card class="width-45-percent margin-bottom-15">
+            <mat-card-subtitle> Личные данные </mat-card-subtitle>
+            <mat-card-content>
+              <div class="display-flex flex-wrap">
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Имя</mat-label>
+                  <input matInput type="text" id="name" formControlName="name" placeholder="Магомед" />
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Телефон</mat-label>
+                  <input matInput type="text" id="phoneNumber" formControlName="phoneNumber" placeholder="+7(999)555-66-77" />
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Номер паспорта</mat-label>
+                  <input matInput type="text" id="passportNumber" formControlName="passportNumber" placeholder="11 04 00000" />
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Дата рождения</mat-label>
+                  <input matInput [matDatepicker]="birthdayPicker" id="birthday" formControlName="birthday" />
+                  <mat-datepicker-toggle matSuffix [for]="birthdayPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #birthdayPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="width-45-percent margin-bottom-15">
+            <mat-card-subtitle> Данные тура </mat-card-subtitle>
+            <mat-card-content>
+              <div class="display-flex flex-wrap">
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Ночей в отеле</mat-label>
+                  <input matInput type="number" id="hotelNights" formControlName="hotelNights"
+                    placeholder="3" />
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Дней в туре</mat-label>
+                  <input matInput type="number" id="tourDays" formControlName="tourDays"
+                    placeholder="4" />
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Отель</mat-label>
+                  <input matInput type="text" id="hotel" formControlName="hotel" placeholder="Турист" />
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Звездность</mat-label>
+                  <input matInput type="number" id="stars" formControlName="stars" placeholder="4" />
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent" appearance="fill">
+                  <mat-label>Тип номера</mat-label>
+                  <mat-select [(ngModel)]="selectedRoomType" name="room" id="apartmentType" formControlName="apartmentType">
+                    <mat-option *ngFor="let room of apartmentOptions" [value]="room.value">
+                      {{room.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="width-45-percent">
+            <mat-card-subtitle> Даты </mat-card-subtitle>
+            <mat-card-content>
+              <div class="display-flex flex-wrap">
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Дата заезда</mat-label>
+                  <input matInput [matDatepicker]="checkInDatePicker" id="checkInDate" formControlName="checkInDate" />
+                  <mat-datepicker-toggle matSuffix [for]="checkInDatePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #checkInDatePicker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Дата выезда</mat-label>
+                  <input matInput [matDatepicker]="checkOutDatePicker" id="checkOutDate"
+                    formControlName="checkOutDate" />
+                  <mat-datepicker-toggle matSuffix [for]="checkOutDatePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #checkOutDatePicker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Дата и время прилета</mat-label>
+                  <input matInput type="datetime-local" id="arrivalDateAndTime" formControlName="arrivalDateAndTime"
+                    placeholder="null" />
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Дата и время отъезда</mat-label>
+                  <input matInput type="datetime-local" id="departureDateAndTime" formControlName="departureDateAndTime"
+                    placeholder="null" />
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="width-45-percent">
+            <mat-card-subtitle> Дополнительно </mat-card-subtitle>
+            <mat-card-content>
+              <div class="display-flex flex-wrap">
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Закрытая цена</mat-label>
+                  <input matInput type="text" id="closePrice" formControlName="closePrice" />
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Допы</mat-label>
+                  <input matInput type="text" id="addition" formControlName="addition" placeholder="₽2,000" />
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Вид транспорта(приезд)</mat-label>
+                  <input matInput type="text" id="arrivalTransportType" formControlName="arrivalTransportType" placeholder="Самолет" />
+                </mat-form-field>
+                <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Вид транспорта(отъезд)</mat-label>
+                  <input matInput type="text" id="departureTransportType" formControlName="departureTransportType" placeholder="Поезд" />
+                </mat-form-field>
+                <!-- <mat-form-field class="margin-left-10 width-30-percent">
+                  <mat-label>Комментарий</mat-label>
+                  <input matInput type="text" id="comment" formControlName="comment" />
+                </mat-form-field> -->
+                <mat-form-field class="margin-left-10 width-30-percent" appearance="fill">
+                  <mat-label>Комментарий</mat-label>
+                  <textarea matInput
+                            cdkTextareaAutosize
+                            #autosize="cdkTextareaAutosize"
+                            cdkAutosizeMinRows="1"
+                            cdkAutosizeMaxRows="5" id="comment" formControlName="comment" ></textarea>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+        </div>
+      </mat-card-content>
+
+
+      <mat-card-actions>
+        <button type="button" mat-raised-button color="basic">Добавить спутника</button>
+        <button type="button" mat-raised-button color="warn" (click)="onCancel()">Отменить</button>
+        <button mat-raised-button color="primary" [disabled]="!creatingTouristForm.valid">Создать</button>
+      </mat-card-actions>
+
+    </form>
+  </mat-card>
+</section>
+
+<div>
+  {{creatingTouristForm.value | json}}
+</div>
