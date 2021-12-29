@@ -1,24 +1,28 @@
 <section>
 
-  <div class="margin-5">
-    <h1> Список туров </h1>
+  <div class="margin-left-10">
+    <h2 class="margin-top-5 margin-bottom-5"> Список туров </h2>
   </div>
   <div class="margin-5">
-    <a routerLink="/creating-tour"><button mat-raised-button color="primary"> Добавить</button></a>
+    <a routerLink="/creating-tour"><button mat-stroked-button color="primary" matTooltip="Добавить тур"> Добавить</button></a>
   </div>
-
+  <app-logout-button class="right-button"></app-logout-button>
 </section>
 <mat-divider></mat-divider>
 
 <section>
-  <div class="flex-direction-row">
+  <div class="flex-direction-row width-100">
 
-    <mat-card *ngFor="let tour of tours" class="margin-10">
+    <mat-card *ngFor="let tour of tours" class="margin-10 tour-card">
       <mat-card-title>
-        {{tour.startDate}}
-        <a [routerLink]="['/creating-tourist', tour.id]"><button mat-mini-fab color="primary" class="float-right">
-          <mat-icon>add</mat-icon>
-        </button></a>
+        <a [routerLink]="['/list-tourists', tour.id]">
+          Тур от {{tour.startDate | date: 'dd/MM/yyyy' }}
+        </a>
+        <a [routerLink]="['/creating-tourist', tour.id]">
+          <button mat-icon-button color="primary" class="float-right" matTooltip="Добавить туриста">
+            <mat-icon>add</mat-icon>
+          </button>
+        </a>
       </mat-card-title>
 
       <mat-card-content>
@@ -27,12 +31,14 @@
             <th>Гиды</th>
             <th>Водители</th>
             <th>Количество туристов</th>
-            <th>Статус тура</th>
             <th>Крайний день</th>
+            <th>Статус тура</th>
           </tr>
           <tr>
             <td>{{tour.guides}}</td>
             <td>{{tour.drivers}}</td>
+            <td>{{tour.touristNumber}}</td>
+            <td>{{tour.endDate | date: 'dd/MM/yyyy'}}</td>
           </tr>
         </table>
       </mat-card-content>

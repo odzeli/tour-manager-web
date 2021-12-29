@@ -1,15 +1,18 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Tour } from "../models/tour"
-import { Observable } from "rxjs";
+import { APP_API_URL } from "../app-injection-tokens";
 
 @Injectable()
 export class TourService {
-  baseUrl = "http://localhost:5000/";
+  baseUrl = this.appApi + "/api/Tour/";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject(APP_API_URL) private appApi) { }
 
   public save(tour: Tour) {
-    return this.http.post(this.baseUrl + 'api/Tour', tour);
+    return this.http.post(this.baseUrl, tour);
+  }
+  public getTourStartDate(tourId: string){
+    return this.http.get<Date>(this.baseUrl + "getTourStartDate/" + tourId);
   }
 }

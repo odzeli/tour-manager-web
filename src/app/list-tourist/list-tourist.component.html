@@ -1,0 +1,120 @@
+<section>
+  <div class="margin-left-10 margin-top-5">
+    <app-back-arrow></app-back-arrow>
+  </div>
+  <div class="margin-5 flex-grow-1">
+    <h2 class="margin-top-5 margin-bottom-5">Список туристов {{tourStartDate | date: 'dd/MM/yyyy'}}</h2>
+  </div>
+  <div class="margin-5 right-button">
+    <a [routerLink]="['/creating-tourist', tourId]"><button mat-icon-button color="primary" class="float-right" matTooltip="Добавить туриста">
+        <mat-icon>add</mat-icon>
+      </button></a>
+  </div>
+
+  <app-logout-button class="right-button"></app-logout-button>
+
+</section>
+
+<mat-divider></mat-divider>
+
+
+<div class="padding-10">
+  <table mat-table [dataSource]="touristDataSource" class="mat-elevation-z8 tourists-table">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Имя</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="arrivalDateAndTime">
+      <mat-header-cell *matHeaderCellDef>Дата приезда</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.arrivalDateAndTime | date: 'dd/MM/yyyy'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="arrivalTransportType">
+      <mat-header-cell *matHeaderCellDef>Вид транспорта</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.arrivalTransportType}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="checkInDate">
+      <mat-header-cell *matHeaderCellDef>Дата заселения</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.checkInDate | date: 'dd/MM/yyyy'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="departureDateAndTime">
+      <mat-header-cell *matHeaderCellDef>Дата отъезда</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.departureDateAndTime | date: 'dd/MM/yyyy'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="departureTransportType">
+      <mat-header-cell *matHeaderCellDef>Вид транспорта</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.departureTransportType}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="checkOutDate">
+      <mat-header-cell *matHeaderCellDef>Конец тура</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.checkOutDate | date: 'dd/MM/yyyy'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="tourDays">
+      <mat-header-cell *matHeaderCellDef>Дней в туре</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.tourDays}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="hotelNights">
+      <mat-header-cell *matHeaderCellDef>Ночей в отеле</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.hotelNights}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="stars">
+      <mat-header-cell *matHeaderCellDef>Звездность</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.stars}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="apartmentType">
+      <mat-header-cell *matHeaderCellDef>Тип номера</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.apartmentType}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="phoneNumber">
+      <mat-header-cell *matHeaderCellDef>Номер телефона</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.phoneNumber}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="hotel">
+      <mat-header-cell *matHeaderCellDef>Отель</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.hotel}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="birthday">
+      <mat-header-cell *matHeaderCellDef>ДР</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.birthday | date: 'dd/MM/yyyy'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="passportNumber">
+      <mat-header-cell *matHeaderCellDef>Паспорт №</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.passportNumber}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="closePrice">
+      <mat-header-cell *matHeaderCellDef>Закрытая цена ₽</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.closePrice}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="addition">
+      <mat-header-cell *matHeaderCellDef>Допы ₽</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.addition}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="comment">
+      <mat-header-cell *matHeaderCellDef>Комментарии</mat-header-cell>
+      <mat-cell *matCellDef="let tourist">{{tourist.comment}}</mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+
+  </table>
+</div>

@@ -1,3 +1,12 @@
-.float-right {
-  float: right;
+@import '../styles/colors.scss';
+
+.tour-card {
+  .mat-card-title {
+    font-size: 21px;
+  }
+
+  th {
+    font-weight: 400;
+    color: $font-secondary-color;
+  }
 }

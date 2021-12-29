@@ -31,7 +31,8 @@
               "src/styles.scss",
               "src/app/styles/flexbox.scss",
               "src/app/styles/margins.scss",
-              "src/app/styles/properties.scss"
+              "src/app/styles/properties.scss",
+              "src/app/styles/colors.scss"
             ],
             "scripts": []
           },

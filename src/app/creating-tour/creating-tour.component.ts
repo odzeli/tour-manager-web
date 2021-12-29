@@ -4,6 +4,7 @@ import { TourForCreation } from '../models/abstract/tour-for-creation';
 import { Location } from '@angular/common';
 import { TourService } from '../services/tour-service';
 import { Tour } from '../models/tour';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-creating-tour',
@@ -36,7 +37,11 @@ export class CreatingTourComponent implements OnInit {
 
   public createTour = (tourFormValue: Tour) => {
     if (this.tourForm.valid) {
-      this.tourService.save(tourFormValue).subscribe();
+      this.tourService.save(tourFormValue).pipe(
+        finalize(() => {
+          this.onCancel();
+        })
+      ).subscribe();
     }
   }
 

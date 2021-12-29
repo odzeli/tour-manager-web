@@ -1,0 +1,31 @@
+<section>
+  <div class="margin-5">
+    <h2 class="margin-top-5 margin-bottom-5">Место входа</h2>
+  </div>
+</section>
+
+<mat-divider></mat-divider>
+
+<section>
+  <mat-card>
+    <mat-card-title>Введите ваши учетные данные</mat-card-title>
+
+    <form [formGroup]="loginForm" autocomplete="off" novalidate (ngSubmit)="login(loginForm.value)">
+      <mat-card-content>
+        <div class="display-flex flex-direction-column">
+          <mat-form-field>
+            <input matInput type="text" placeholder="Введите ваше Email" formControlName="email" id="email">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="password" placeholder="Введите пароль" formControlName="password" id="password">
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" [disabled]="!loginForm.valid">Войти</button>
+      </mat-card-actions>
+    </form>
+
+  </mat-card>
+</section>

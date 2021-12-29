@@ -1,0 +1,18 @@
+@import '../styles/colors.scss';
+
+.tourists-table {
+  width: 100%;
+  overflow-x: scroll;
+  display: inline-block;
+}
+
+.tourists-table {
+  .mat-cell {
+    border-left: 1px solid $grid-border-color;
+    padding-left: 5px;
+    width: 200px;
+  }
+  mat-header-cell:first-of-type {
+    padding-left: 5px;
+  }
+}

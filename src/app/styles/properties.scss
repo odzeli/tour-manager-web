@@ -1,6 +1,27 @@
+@import './colors.scss';
+
 .width-30-percent {
   width: 30%;
 }
 .width-45-percent {
   width: 45%;
+}
+.width-100 {
+  width: 100%;
+}
+.float-right {
+  float: right;
+}
+.right-button {
+  margin-left: auto;
+  margin-right: 10px;
+  flex-grow: 0;
+}
+a{
+  text-decoration: none;
+  color: $a-link-color;
+}
+
+.mat-card {
+  color: $font-color;
 }

@@ -4,7 +4,9 @@ import { Location } from '@angular/common';
 import { Tourist } from '../models/tourist';
 import { ApartmentType } from '../models/enums/apartment-type';
 import { TouristService } from '../services/tourist-service';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { TourService } from '../services/tour-service';
 
 interface ApartmentOption {
   value: ApartmentType,
@@ -21,8 +23,15 @@ export class CreatingTouristComponent implements OnInit {
   apartmentOptions: ApartmentOption[];
   selectedRoomType: ApartmentOption;
   tourId: string;
+  tourStartDate: Date;
 
-  constructor(private fb: FormBuilder, private location: Location, private touristService: TouristService, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private fb: FormBuilder,
+    private location: Location,
+    private touristService: TouristService,
+    private activatedRoute: ActivatedRoute,
+    private tourService: TourService
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -30,7 +39,13 @@ export class CreatingTouristComponent implements OnInit {
 
     this.activatedRoute.paramMap.subscribe(params => {
       this.tourId = params.get("tourId");
-     });
+    });
+
+    this.tourService.getTourStartDate(this.tourId).subscribe(
+      res => {
+        this.tourStartDate = res;
+      }
+    );
   }
 
   initForm() {
@@ -68,7 +83,7 @@ export class CreatingTouristComponent implements OnInit {
 
   public addTourist(t: Tourist) {
     if (this.creatingTouristForm.valid) {
-      let tourist: Tourist ={
+      let tourist: Tourist = {
         tourId: this.tourId,
         name: t.name,
         birthday: t.birthday,
@@ -90,30 +105,13 @@ export class CreatingTouristComponent implements OnInit {
         comment: t.comment,
         id: ''
       };
-      // {
-      //   id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      //   name: "string",
-      //   birthday: new Date(),
-      //   passportNumber: "string",
-      //   arrivalDateAndTime: new Date(),
-      //   arrivalTransportType: "string",
-      //   checkInDate: new Date(),
-      //   departureDateAndTime: new Date(),
-      //   departureTransportType: "string",
-      //   checkOutDate: new Date(),
-      //   tourDays: 0,
-      //   hotelNights: 0,
-      //   stars: 0,
-      //   apartmentType: 0,
-      //   phoneNumber: "string",
-      //   hotel: "string",
-      //   closePrice: 0,
-      //   addition: "string",
-      //   comment: "string"
-      // };
 
       tourist.id = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
-      this.touristService.setTourist(tourist).subscribe();
+      this.touristService.setTourist(tourist).pipe(
+        finalize(() => {
+          this.onCancel();
+        })
+      ).subscribe();
     }
   }
 
