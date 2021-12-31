@@ -4,7 +4,8 @@
     <h2 class="margin-top-5 margin-bottom-5"> Список туров </h2>
   </div>
   <div class="margin-5">
-    <a routerLink="/creating-tour"><button mat-stroked-button color="primary" matTooltip="Добавить тур"> Добавить</button></a>
+    <a routerLink="/creating-tour"><button mat-stroked-button color="primary" matTooltip="Добавить тур">
+        Добавить</button></a>
   </div>
   <app-logout-button class="right-button"></app-logout-button>
 </section>
@@ -32,13 +33,14 @@
             <th>Водители</th>
             <th>Количество туристов</th>
             <th>Крайний день</th>
-            <th>Статус тура</th>
+            <th>Осталось туристов в туре</th>
           </tr>
           <tr>
             <td>{{tour.guides}}</td>
             <td>{{tour.drivers}}</td>
             <td>{{tour.touristNumber}}</td>
             <td>{{tour.endDate | date: 'dd/MM/yyyy'}}</td>
+            <td><b>{{tour.touristsInProcess}}</b></td>
           </tr>
         </table>
       </mat-card-content>

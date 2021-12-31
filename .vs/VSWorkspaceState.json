@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\common-components"
   ],
+  "SelectedNode": "\\src\\app\\dashboard",
   "PreviewInSolutionExplorer": false
 }

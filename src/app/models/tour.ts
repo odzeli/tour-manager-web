@@ -6,4 +6,5 @@ export class Tour implements TourForCreation {
   drivers: string;
   touristNumber: number;
   endDate: Date;
+  touristsInProcess: number;
 }

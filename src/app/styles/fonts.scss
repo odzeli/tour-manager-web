@@ -1,0 +1,36 @@
+@import "../styles/colors.scss";
+
+@font-face {
+  font-family: Montserrat;
+  src: url(../../assets/fonts/Montserrat/Montserrat-Regular.ttf) format("truetype");
+}
+
+body {
+  font-family: "Montserrat", Roboto, "Helvetica Neue", sans-serif;
+  color: $font-color;
+}
+.mat-typography {
+  font-family: "Montserrat";
+}
+.mat-typography {
+  h2 {
+    font-family: "Montserrat";
+    font-weight: bold;
+  }
+}
+.mat-card {
+  font-family: "Montserrat";
+}
+.mat-card-title {
+  font-weight: bold;
+}
+.mat-table {
+  font-family: "Montserrat";
+}
+.mat-card-content {
+  font-size: 14px;
+}
+.mat-stroked-button {
+  font-family: "Montserrat";
+  font-weight: bold;
+}
