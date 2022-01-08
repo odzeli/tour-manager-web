@@ -1,0 +1,13 @@
+<form (ngSubmit)="onSubmit()">
+  <div class="mat-subheading-2">Изменить значение</div>
+
+  <mat-form-field>
+    <input matInput maxLength="140" name="changingValue" [(ngModel)]="changingValue" autocomplete="off">
+    <mat-hint align="end">{{changingValue?.length || 0}}/140</mat-hint>
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-button type="button" color="primary" (click)="onCancel()">CANCEL</button>
+    <button mat-button type="submit" color="primary">SAVE</button>
+  </div>
+</form>

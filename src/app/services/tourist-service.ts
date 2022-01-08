@@ -26,4 +26,8 @@ export class TouristService {
     return this.http.get<Tourist[]>(this.baseUrl + 'Tourist/TouristsList/' + tourId);
   }
 
+  change(tourist: Tourist) {
+    return this.http.post(this.baseUrl + 'Tourist/ChangeTourist', tourist);
+  }
+
 }

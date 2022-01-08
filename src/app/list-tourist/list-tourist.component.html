@@ -6,7 +6,8 @@
     <h2 class="margin-top-5 margin-bottom-5">Список туристов {{tourStartDate | date: 'dd/MM/yyyy'}}</h2>
   </div>
   <div class="margin-5 right-button">
-    <a [routerLink]="['/creating-tourist', tourId]"><button mat-icon-button color="primary" class="float-right" matTooltip="Добавить туриста">
+    <a [routerLink]="['/creating-tourist', tourId]"><button mat-icon-button color="primary" class="float-right"
+        matTooltip="Добавить туриста">
         <mat-icon>add</mat-icon>
       </button></a>
   </div>
@@ -19,96 +20,219 @@
 
 
 <div class="padding-10">
-  <table mat-table [dataSource]="touristDataSource" class="mat-elevation-z8 tourists-table">
+  <table mat-table [dataSource]="touristDataSource" matSort class="mat-elevation-z8 tourists-table">
 
     <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef>Имя</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.name}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">Имя</mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popName" (click)="popName.open()">
+        {{tourist.name}}
+        <sat-popover #popName hasBackdrop xAlign="start" yAlign="start" (closed)="update(tourist, $event, 'name')">
+          <app-inline-edit [value]="tourist.name"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="arrivalDateAndTime">
-      <mat-header-cell *matHeaderCellDef>Дата приезда</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.arrivalDateAndTime | date: 'dd/MM/yyyy'}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by arrivalDateAndTime">Дата приезда
+      </mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popArrivalDateAndTime"
+        (click)="popArrivalDateAndTime.open()">
+        {{tourist.arrivalDateAndTime | date: 'dd/MM/yyyy'}}
+        <sat-popover #popArrivalDateAndTime hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'arrivalDateAndTime')">
+          <app-inline-edit [value]="tourist.arrivalDateAndTime"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="arrivalTransportType">
-      <mat-header-cell *matHeaderCellDef>Вид транспорта</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.arrivalTransportType}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by arrivalTransportType">Вид
+        транспорта</mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popArrivalTransportType"
+        (click)="popArrivalTransportType.open()">
+        {{tourist.arrivalTransportType}}
+        <sat-popover #popArrivalTransportType hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'arrivalTransportType')">
+          <app-inline-edit [value]="tourist.arrivalTransportType"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="checkInDate">
-      <mat-header-cell *matHeaderCellDef>Дата заселения</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.checkInDate | date: 'dd/MM/yyyy'}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by checkInDate">Дата заселения
+      </mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popCheckInDate" (click)="popCheckInDate.open()">
+        {{tourist.checkInDate | date: 'dd/MM/yyyy'}}
+        <sat-popover #popCheckInDate hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'checkInDate')">
+          <app-inline-edit [value]="tourist.checkInDate"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="departureDateAndTime">
-      <mat-header-cell *matHeaderCellDef>Дата отъезда</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.departureDateAndTime | date: 'dd/MM/yyyy'}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by departureDateAndTime">Дата
+        отъезда</mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popDepartureDateAndTime"
+        (click)="popDepartureDateAndTime.open()">
+        {{tourist.departureDateAndTime | date: 'dd/MM/yyyy'}}
+        <sat-popover #popDepartureDateAndTime hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'departureDateAndTime')">
+          <app-inline-edit [value]="tourist.departureDateAndTime"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="departureTransportType">
-      <mat-header-cell *matHeaderCellDef>Вид транспорта</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.departureTransportType}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by departureTransportType">Вид
+        транспорта</mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popDepartureTransportType"
+        (click)="popDepartureTransportType.open()">
+        {{tourist.departureTransportType}}
+        <sat-popover #popDepartureTransportType hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'departureTransportType')">
+          <app-inline-edit [value]="tourist.departureTransportType"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="checkOutDate">
-      <mat-header-cell *matHeaderCellDef>Конец тура</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.checkOutDate | date: 'dd/MM/yyyy'}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by checkOutDate">Конец тура
+      </mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popCheckOutDate" (click)="popCheckOutDate.open()">
+        {{tourist.checkOutDate | date: 'dd/MM/yyyy'}}
+        <sat-popover #popCheckOutDate hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'checkOutDate')">
+          <app-inline-edit [value]="tourist.checkOutDate"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="tourDays">
-      <mat-header-cell *matHeaderCellDef>Дней в туре</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.tourDays}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by tourDays">Дней в туре
+      </mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popTourDays" (click)="popTourDays.open()">
+        {{tourist.tourDays}}
+        <sat-popover #popTourDays hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'tourDays')">
+          <app-inline-edit [value]="tourist.tourDays"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="hotelNights">
-      <mat-header-cell *matHeaderCellDef>Ночей в отеле</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.hotelNights}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by hotelNights">Ночей в отеле
+      </mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popHotelNights" (click)="popHotelNights.open()">
+        {{tourist.hotelNights}}
+        <sat-popover #popHotelNights hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'hotelNights')">
+          <app-inline-edit [value]="tourist.hotelNights"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="stars">
-      <mat-header-cell *matHeaderCellDef>Звездность</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.stars}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by stars">Звездность
+      </mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popStars" (click)="popStars.open()">
+        {{tourist.stars}}
+        <sat-popover #popStars hasBackdrop xAlign="start" yAlign="start" (closed)="update(tourist, $event, 'stars')">
+          <app-inline-edit [value]="tourist.stars"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="apartmentType">
-      <mat-header-cell *matHeaderCellDef>Тип номера</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.apartmentType}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by apartmentType">Тип номера
+      </mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popApartmentType" (click)="popApartmentType.open()">
+        {{tourist.apartmentType}}
+        <sat-popover #popApartmentType hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'apartmentType')">
+          <app-inline-edit [value]="tourist.apartmentType"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="phoneNumber">
-      <mat-header-cell *matHeaderCellDef>Номер телефона</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.phoneNumber}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phoneNumber">Номер телефона
+      </mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popPhoneNumber" (click)="popPhoneNumber.open()">
+        {{tourist.phoneNumber}}
+        <sat-popover #popPhoneNumber hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'phoneNumber')">
+          <app-inline-edit [value]="tourist.phoneNumber"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="hotel">
-      <mat-header-cell *matHeaderCellDef>Отель</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.hotel}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by hotel">Отель</mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popHotel" (click)="popHotel.open()">
+        {{tourist.hotel}}
+        <sat-popover #popHotel hasBackdrop xAlign="start" yAlign="start" (closed)="update(tourist, $event, 'hotel')">
+          <app-inline-edit [value]="tourist.hotel"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="birthday">
-      <mat-header-cell *matHeaderCellDef>ДР</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.birthday | date: 'dd/MM/yyyy'}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by birthday">ДР</mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popBirthday" (click)="popBirthday.open()">
+        {{tourist.birthday | date: 'dd/MM/yyyy'}}
+        <sat-popover #popBirthday hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'birthday')">
+          <app-inline-edit [value]="tourist.birthday"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="passportNumber">
-      <mat-header-cell *matHeaderCellDef>Паспорт №</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.passportNumber}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by passportNumber">Паспорт №
+      </mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popPassportNumber" (click)="popPassportNumber.open()">
+        {{tourist.passportNumber}}
+        <sat-popover #popPassportNumber hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'passportNumber')">
+          <app-inline-edit [value]="tourist.passportNumber"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="closePrice">
-      <mat-header-cell *matHeaderCellDef>Закрытая цена ₽</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.closePrice}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by closePrice">Закрытая цена ₽
+      </mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popClosePrice" (click)="popClosePrice.open()">
+        {{tourist.closePrice}}
+        <sat-popover #popClosePrice hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'closePrice')">
+          <app-inline-edit [value]="tourist.closePrice"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="addition">
-      <mat-header-cell *matHeaderCellDef>Допы ₽</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.addition}}</mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by addition">Допы ₽
+      </mat-header-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popAddition" (click)="popAddition.open()">
+        {{tourist.addition}}
+        <sat-popover #popAddition hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(tourist, $event, 'addition')">
+          <app-inline-edit [value]="tourist.addition"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="comment">
       <mat-header-cell *matHeaderCellDef>Комментарии</mat-header-cell>
-      <mat-cell *matCellDef="let tourist">{{tourist.comment}}</mat-cell>
+      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popComment" (click)="popComment.open()">
+        {{tourist.comment}}
+        <sat-popover #popComment hasBackdrop xAlign="start" yAlign="start"
+        (closed)="update(tourist, $event, 'comment')">
+        <app-inline-edit [value]="tourist.comment"></app-inline-edit>
+      </sat-popover>
+      </mat-cell>
     </ng-container>
 
 

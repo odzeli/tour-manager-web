@@ -24,6 +24,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+//defferent components
+import { SatPopoverModule } from '@ncstate/sat-popover';
+
 //services
 import { TourService } from './services/tour-service';
 import { TouristService } from './services/tourist-service';
@@ -41,6 +44,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ACCESS_TOKEN_KEY } from './services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { LogoutButtonComponent } from './common-components/logout-button/logout-button.component';
+import { InlineEditComponent } from './list-tourist/inline-edit/inline-edit.component';
+import { AuthGuard } from './guards/auth-guard';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -56,7 +61,8 @@ export function tokenGetter() {
     CreatingTouristComponent,
     ListTouristComponent,
     LoginComponent,
-    LogoutButtonComponent
+    LogoutButtonComponent,
+    InlineEditComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +91,8 @@ export function tokenGetter() {
         tokenGetter,
         allowedDomains: environment.tokenWhiteListedDomains
       }
-    })
+    }),
+    SatPopoverModule,
   ],
   exports: [
     MatDatepickerModule,
@@ -93,7 +100,7 @@ export function tokenGetter() {
     MatCardModule,
   ],
   providers: [
-    TouristService, TourService, DashboardService,
+    AuthGuard, TouristService, TourService, DashboardService,
     { provide: AUTH_API_URL, useValue: environment.authApi },
     { provide: APP_API_URL, useValue: environment.appApi }
   ],

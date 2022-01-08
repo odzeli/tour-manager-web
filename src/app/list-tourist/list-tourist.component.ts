@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Tourist } from '../models/tourist';
 import { TouristService } from '../services/tourist-service';
 import { TourService } from '../services/tour-service';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-list-tourist',
@@ -13,7 +15,7 @@ export class ListTouristComponent implements OnInit {
   tourId: string;
   tourists: Tourist[];
   displayedColumns: string[];
-  touristDataSource: Tourist[];
+  touristDataSource: MatTableDataSource<Tourist>;
   tourStartDate: Date;
 
   constructor(
@@ -21,6 +23,8 @@ export class ListTouristComponent implements OnInit {
     private touristService: TouristService,
     private tourService: TourService
   ) { }
+
+  @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit(): void {
 
@@ -38,6 +42,8 @@ export class ListTouristComponent implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+  }
 
   touristsList() {
     this.touristService.touristsList(this.tourId).subscribe(tourists => {
@@ -66,7 +72,18 @@ export class ListTouristComponent implements OnInit {
       'passportNumber',
       'closePrice',
       'comment'];
-    this.touristDataSource = this.tourists;
+    this.touristDataSource = new MatTableDataSource(this.tourists);
+    this.touristDataSource.sort = this.sort;
+  }
+
+  update(el: Tourist, value: any, fieldName: string) {
+    if (value == null) { return; }
+    el[fieldName] = value;
+    this.touristService.change(el).subscribe(
+      res => {
+      },
+      err => { }
+    );
   }
 
 }
