@@ -37,7 +37,7 @@ export class CreatingTourComponent implements OnInit {
 
   public createTour = (tourFormValue: Tour) => {
     if (this.tourForm.valid) {
-      this.tourService.save(tourFormValue).pipe(
+      this.tourService.add(tourFormValue).pipe(
         finalize(() => {
           this.onCancel();
         })

@@ -29,5 +29,4 @@ export class TouristService {
   change(tourist: Tourist) {
     return this.http.post(this.baseUrl + 'Tourist/ChangeTourist', tourist);
   }
-
 }
