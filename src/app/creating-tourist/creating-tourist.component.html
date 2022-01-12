@@ -12,7 +12,7 @@
 
 <section>
   <mat-card>
-    <form *ngIf="formInitiated" [formGroup]="creatingTouristForm" autocomplete="off" novalidate
+    <form [formGroup]="creatingTouristForm" autocomplete="off" novalidate
       (ngSubmit)="addTourist(creatingTouristForm.value)">
       <mat-card-content>
         <div class="display-flex flex-wrap justify-content-space-around">
@@ -20,26 +20,30 @@
           <mat-card class="width-45-percent margin-bottom-15">
             <mat-card-content>
               <div class="display-flex flex-wrap">
-                <div *ngFor="let column of columns" class="margin-left-10 width-30-percent">
-                  <mat-form-field *ngIf="column.valueType == columnValueType.string">
-                    <mat-label>{{column.name}}</mat-label>
-                    <input matInput type="text" [id]="column.code" [formControlName]="column.code"
-                      [placeholder]="column.name" />
-                  </mat-form-field>
-                </div>
-                <!-- <mat-form-field class="margin-left-10 width-30-percent">
-                  <mat-label>Ночей в отеле</mat-label>
-                  <input matInput type="number" id="hotelNights" formControlName="hotelNights" placeholder="3" />
+                <mat-form-field *ngFor="let column of stringColumns" class="margin-left-10 width-30-percent">
+                  <mat-label>{{column.name}}</mat-label>
+                  <input matInput type="text" [id]="column.code" [formControlName]="column.code"
+                    [placeholder]="column.name" />
                 </mat-form-field>
-                <mat-form-field class="margin-left-10 width-30-percent">
-                  <mat-label>Дата рождения</mat-label>
-                  <input matInput [matDatepicker]="birthdayPicker" id="birthday" formControlName="birthday" />
-                  <mat-datepicker-toggle matSuffix [for]="birthdayPicker"></mat-datepicker-toggle>
-                  <mat-datepicker #birthdayPicker></mat-datepicker>
-                </mat-form-field> -->
+                <mat-form-field *ngFor="let column of numberColumns" class="margin-left-10 width-30-percent">
+                  <mat-label>{{column.name}}</mat-label>
+                  <input matInput type="number" [id]="column.code" [formControlName]="column.code"
+                    [placeholder]="column.name" />
+                </mat-form-field>
+                <div *ngFor="let column of dateColumns" class="margin-left-10 width-30-percent">
+                  <mat-label>{{column.name}}</mat-label>
+                  <ngx-datepicker [formControlName]="column.code"></ngx-datepicker>
+                </div>
               </div>
             </mat-card-content>
           </mat-card>
+
+          <!-- <mat-form-field class="margin-left-10 width-30-percent">
+            <mat-label>Дата рождения</mat-label>
+            <input matInput [matDatepicker]="birthdayPicker" id="birthday" formControlName="birthday" />
+            <mat-datepicker-toggle matSuffix [for]="birthdayPicker"></mat-datepicker-toggle>
+            <mat-datepicker #birthdayPicker></mat-datepicker>
+          </mat-form-field> -->
 
           <!-- for comment -->
           <!-- <mat-form-field class="margin-left-10 width-30-percent" appearance="fill">

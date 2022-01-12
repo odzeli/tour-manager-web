@@ -26,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 //defferent components
 import { SatPopoverModule } from '@ncstate/sat-popover';
+import { DatepickerModule } from 'ng2-datepicker';
 
 //services
 import { TourService } from './services/tour-service';
@@ -62,7 +63,7 @@ export function tokenGetter() {
     ListTouristComponent,
     LoginComponent,
     LogoutButtonComponent,
-    InlineEditComponent
+    InlineEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,6 +94,7 @@ export function tokenGetter() {
       }
     }),
     SatPopoverModule,
+    DatepickerModule
   ],
   exports: [
     MatDatepickerModule,

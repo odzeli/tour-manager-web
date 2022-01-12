@@ -22,18 +22,23 @@ export class CreatingTouristComponent implements OnInit {
   formInitiated: boolean;
   columnValueType = ColumnValueType;
 
+  stringColumns: Column[] = [];
+  numberColumns: Column[] = [];
+  dateColumns: Column[] = [];
+  date = new Date();
+
   constructor(
     private fb: FormBuilder,
     private location: Location,
     private touristService: TouristService,
     private activatedRoute: ActivatedRoute,
     private tourService: TourService,
-    // public columnValueType: ColumnValueType
   ) {
 
   }
 
   ngOnInit(): void {
+    this.creatingTouristForm = this.fb.group({});
 
     this.activatedRoute.paramMap.subscribe(params => {
       this.tourId = params.get("tourId");
@@ -54,12 +59,21 @@ export class CreatingTouristComponent implements OnInit {
   }
 
   initForm() {
-    this.creatingTouristForm = this.fb.group({});
+    let today = new Date();
     this.columns.forEach(c => {
-      if (c.valueType == ColumnValueType.string)
+      if (c.valueType == ColumnValueType.string) {
+        this.stringColumns.push(c);
         this.creatingTouristForm.addControl(c.code, this.fb.control(''));
+      }
+      if (c.valueType == ColumnValueType.int || c.valueType == ColumnValueType.decimal) {
+        this.numberColumns.push(c);
+        this.creatingTouristForm.addControl(c.code, this.fb.control(''));
+      }
+      if (c.valueType == ColumnValueType.dateTime) {
+        this.dateColumns.push(c);
+        this.creatingTouristForm.addControl(c.code, this.fb.control(today));
+      }
     });
-    this.formInitiated = true;
   }
 
   public onCancel = () => {
@@ -67,6 +81,7 @@ export class CreatingTouristComponent implements OnInit {
   }
 
   public addTourist(t: Tourist) {
+    console.log(this.creatingTouristForm.value);
     if (this.creatingTouristForm.valid) {
       let tourist: Tourist = {
         tourId: this.tourId,
@@ -74,12 +89,12 @@ export class CreatingTouristComponent implements OnInit {
         id: ''
       };
 
-      tourist.id = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
-      this.touristService.setTourist(tourist).pipe(
-        finalize(() => {
-          this.onCancel();
-        })
-      ).subscribe();
+      // tourist.id = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
+      // this.touristService.setTourist(tourist).pipe(
+      //   finalize(() => {
+      //     this.onCancel();
+      //   })
+      // ).subscribe();
     }
   }
 

@@ -9,4 +9,5 @@ export class Column {
   sortOrder: number;
   displayInGrid: boolean;
   displayInPersonalPanel: boolean;
+  sharpNotation: string;
 }
