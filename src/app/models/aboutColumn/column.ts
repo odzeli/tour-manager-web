@@ -1,4 +1,4 @@
-import {ColumnValueType} from './enums/column-value-type'
+import {ColumnValueType} from '../enums/column-value-type'
 
 export class Column {
   id: string;

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Location } from '@angular/common';
-import { Tourist } from '../models/tourist';
 import { TouristService } from '../services/tourist-service';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs/operators';
 import { TourService } from '../services/tour-service';
-import { Column } from '../models/column';
+import { Column } from '../models/aboutColumn/column';
 import { ColumnValueType } from '../models/enums/column-value-type';
+import { ColumnValue } from '../models/aboutColumn/columnValue';
+import { TouristValues } from '../models/touristValues';
 
 @Component({
   selector: 'app-creating-tourist',
@@ -80,22 +80,27 @@ export class CreatingTouristComponent implements OnInit {
     this.location.back();
   }
 
-  public addTourist(t: Tourist) {
-    console.log(this.creatingTouristForm.value);
+  public addTourist(columns: any) {
+    let touristValues = new TouristValues();
+    touristValues.tourId = this.tourId;
+    touristValues.columnValues = [];
     if (this.creatingTouristForm.valid) {
-      let tourist: Tourist = {
-        tourId: this.tourId,
-        name: t.name,
-        id: ''
-      };
-
-      // tourist.id = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
-      // this.touristService.setTourist(tourist).pipe(
-      //   finalize(() => {
-      //     this.onCancel();
-      //   })
-      // ).subscribe();
+      let properties = Object.getOwnPropertyNames(columns);
+      properties.forEach(p => {
+        let a = new ColumnValue();
+        a.columnCode = p;
+        touristValues.columnValues.push(a);
+      });
+      touristValues.columnValues.forEach(c => {
+        c.value = columns[c.columnCode];
+      });
     }
+    this.touristService.addTourist(touristValues)
+      .subscribe(
+        res => {
+          this.onCancel();
+        }
+      );
   }
 
 }

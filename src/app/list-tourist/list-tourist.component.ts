@@ -5,6 +5,10 @@ import { TouristService } from '../services/tourist-service';
 import { TourService } from '../services/tour-service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Row } from '../models/AboutColumn/rows';
+import { ColumnService } from '../services/column-service';
+import { map, pluck } from 'rxjs/operators'
+import { ColumnValue } from '../models/aboutColumn/columnValue';
 
 @Component({
   selector: 'app-list-tourist',
@@ -15,13 +19,19 @@ export class ListTouristComponent implements OnInit {
   tourId: string;
   tourists: Tourist[];
   displayedColumns: string[];
-  touristDataSource: MatTableDataSource<Tourist>;
+  touristDataSource: MatTableDataSource<any[]>;
   tourStartDate: Date;
+  rowsValues: any[] = [];
+  tableInitialized: boolean = false;
+
+  cells: any;
+  columns: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private touristService: TouristService,
-    private tourService: TourService
+    private tourService: TourService,
+    private columnService: ColumnService,
   ) { }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -38,45 +48,53 @@ export class ListTouristComponent implements OnInit {
       }
     );
 
-    this.touristsList();
+    this.columnsCode(this.tourId);
 
   }
 
   ngAfterViewInit() {
   }
 
-  touristsList() {
-    this.touristService.touristsList(this.tourId).subscribe(tourists => {
-      this.tourists = tourists;
-      this.initTable();
-    });
+
+  columnsCode(tourId: string): void {
+    this.columnService.getColumnsCode(tourId).subscribe(
+      res => {
+        this.displayedColumns = res;
+        this.touristsList();
+        console.log(this.displayedColumns);
+      }
+    );
   }
 
-  initTable() {
-    this.displayedColumns = [
-      'name',
-      'arrivalDateAndTime',
-      'arrivalTransportType',
-      'checkInDate',
-      'departureDateAndTime',
-      'departureTransportType',
-      'checkOutDate',
-      'tourDays',
-      'hotelNights',
-      'stars',
-      'apartmentType',
-      'phoneNumber',
-      'addition',
-      'hotel',
-      'birthday',
-      'passportNumber',
-      'closePrice',
-      'comment'];
-    this.touristDataSource = new MatTableDataSource(this.tourists);
-    this.touristDataSource.sort = this.sort;
+  touristsList(): void {
+    this.touristService.touristRows(this.tourId)
+      .pipe(
+        map((rows) => rows.map(row => row.values))
+      )
+      .subscribe(rowsValues => {
+        rowsValues.forEach(values => {
+          let row = []; //cells[{columnCode: value}]
+          let cell: { [k: string]: any } = {};
+          values.forEach(value => {
+            cell[value.columnCode] = value.value;
+            // row.push(cell);
+          });
+          this.rowsValues.push(cell);
+        });
+        console.log(this.rowsValues);
+        this.initTable();
+      });
   }
 
-  update(el: Tourist, value: any, fieldName: string) {
+  initTable(): void {
+    this.touristDataSource = new MatTableDataSource(this.rowsValues);
+    this.tableInitialized = true;
+
+    // this.touristDataSource = new MatTableDataSource(this.tourists);
+    // this.touristDataSource.sort = this.sort;
+  }
+
+  update(el: Tourist, value: any, fieldName: string): void {
     if (value == null) { return; }
     el[fieldName] = value;
     this.touristService.change(el).subscribe(

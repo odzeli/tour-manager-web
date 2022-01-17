@@ -19,20 +19,15 @@
 <mat-divider></mat-divider>
 
 
-<div class="padding-10">
-  <table mat-table [dataSource]="touristDataSource" matSort class="mat-elevation-z8 tourists-table">
+<div class="padding-10" *ngIf="tableInitialized">
+  <table mat-table [dataSource]="touristDataSource" class="mat-elevation-z8 tourists-table">
 
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">Имя</mat-header-cell>
-      <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popName" (click)="popName.open()">
-        {{tourist.name}}
-        <sat-popover #popName hasBackdrop xAlign="start" yAlign="start" (closed)="update(tourist, $event, 'name')">
-          <app-inline-edit [value]="tourist.name"></app-inline-edit>
-        </sat-popover>
-      </mat-cell>
+    <ng-container *ngFor="let columnCode of displayedColumns" [matColumnDef]="columnCode">
+      <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="arrivalDateAndTime">
+    <!-- <ng-container matColumnDef="arrivalDateAndTime">
       <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by arrivalDateAndTime">Дата приезда
       </mat-header-cell>
       <mat-cell *matCellDef="let tourist" [satPopoverAnchor]="popArrivalDateAndTime"
@@ -233,7 +228,7 @@
         <app-inline-edit [value]="tourist.comment"></app-inline-edit>
       </sat-popover>
       </mat-cell>
-    </ng-container>
+    </ng-container> -->
 
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

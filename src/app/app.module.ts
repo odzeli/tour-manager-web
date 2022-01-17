@@ -40,13 +40,14 @@ import { BackArrowComponent } from './common-components/back-arrow/back-arrow.co
 import { CreatingTouristComponent } from './creating-tourist/creating-tourist.component';
 import { ListTouristComponent } from './list-tourist/list-tourist.component';
 import { APP_API_URL, AUTH_API_URL } from './app-injection-tokens';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../src/environments/environment';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ACCESS_TOKEN_KEY } from './services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { LogoutButtonComponent } from './common-components/logout-button/logout-button.component';
 import { InlineEditComponent } from './list-tourist/inline-edit/inline-edit.component';
 import { AuthGuard } from './guards/auth-guard';
+import { ColumnService } from './services/column-service';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -102,7 +103,7 @@ export function tokenGetter() {
     MatCardModule,
   ],
   providers: [
-    AuthGuard, TouristService, TourService, DashboardService,
+    AuthGuard, TouristService, TourService, DashboardService, ColumnService,
     { provide: AUTH_API_URL, useValue: environment.authApi },
     { provide: APP_API_URL, useValue: environment.appApi }
   ],

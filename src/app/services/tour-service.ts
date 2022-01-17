@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Tour } from "../models/tour"
 import { APP_API_URL } from "../app-injection-tokens";
-import { Column } from "../models/column";
+import { Column } from "../models/aboutColumn/column";
 
 @Injectable()
 export class TourService {
