@@ -9,6 +9,7 @@ import { Row } from '../models/AboutColumn/rows';
 import { ColumnService } from '../services/column-service';
 import { map, pluck } from 'rxjs/operators'
 import { ColumnValue } from '../models/aboutColumn/columnValue';
+import { SplittedColumns } from '../models/aboutColumn/splitted-columns';
 
 @Component({
   selector: 'app-list-tourist',
@@ -18,14 +19,12 @@ import { ColumnValue } from '../models/aboutColumn/columnValue';
 export class ListTouristComponent implements OnInit {
   tourId: string;
   tourists: Tourist[];
-  displayedColumns: string[];
+  displayedColumns: SplittedColumns;
   touristDataSource: MatTableDataSource<any[]>;
   tourStartDate: Date;
-  rowsValues: any[] = [];
+  touristRows: any[] = [];
   tableInitialized: boolean = false;
-
-  cells: any;
-  columns: any;
+  allColumns: string[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -49,48 +48,42 @@ export class ListTouristComponent implements OnInit {
     );
 
     this.columnsCode(this.tourId);
-
   }
-
-  ngAfterViewInit() {
-  }
-
 
   columnsCode(tourId: string): void {
     this.columnService.getColumnsCode(tourId).subscribe(
       res => {
         this.displayedColumns = res;
+        this.allColumns = [
+          ...this.displayedColumns.stringColumns,
+          ...this.displayedColumns.dateColumns,
+          ...this.displayedColumns.numberColumns,
+          ...this.displayedColumns.guidColumns,
+          ...this.displayedColumns.boolColumns];
+
         this.touristsList();
-        console.log(this.displayedColumns);
       }
     );
   }
 
   touristsList(): void {
     this.touristService.touristRows(this.tourId)
-      .pipe(
-        map((rows) => rows.map(row => row.values))
-      )
       .subscribe(rowsValues => {
-        rowsValues.forEach(values => {
-          let row = []; //cells[{columnCode: value}]
-          let cell: { [k: string]: any } = {};
-          values.forEach(value => {
-            cell[value.columnCode] = value.value;
-            // row.push(cell);
+        rowsValues.forEach(rowValues => {
+          let row: { [k: string]: any } = {};
+          row['touristId'] = rowValues.touristId;
+          rowValues.values.forEach(value => {
+            row[value.columnCode] = value.value;
           });
-          this.rowsValues.push(cell);
+          this.touristRows.push(row);
         });
-        console.log(this.rowsValues);
         this.initTable();
       });
   }
 
   initTable(): void {
-    this.touristDataSource = new MatTableDataSource(this.rowsValues);
+    this.touristDataSource = new MatTableDataSource(this.touristRows);
     this.tableInitialized = true;
-
-    // this.touristDataSource = new MatTableDataSource(this.tourists);
     // this.touristDataSource.sort = this.sort;
   }
 

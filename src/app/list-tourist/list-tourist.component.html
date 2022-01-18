@@ -22,7 +22,28 @@
 <div class="padding-10" *ngIf="tableInitialized">
   <table mat-table [dataSource]="touristDataSource" class="mat-elevation-z8 tourists-table">
 
-    <ng-container *ngFor="let columnCode of displayedColumns" [matColumnDef]="columnCode">
+    <ng-container *ngFor="let columnCode of displayedColumns.stringColumns" [matColumnDef]="columnCode">
+      <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
+    </ng-container>
+
+    <ng-container *ngFor="let columnCode of displayedColumns.dateColumns" [matColumnDef]="columnCode">
+      <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row[columnCode] | date : "dd/MM/yyyy"}}</mat-cell>
+    </ng-container>
+
+    <ng-container *ngFor="let columnCode of displayedColumns.numberColumns" [matColumnDef]="columnCode">
+      <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
+    </ng-container>
+
+    <ng-container *ngFor="let columnCode of displayedColumns.guidColumns" [matColumnDef]="columnCode">
+      <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
+    </ng-container>
+
+
+    <ng-container *ngFor="let columnCode of displayedColumns.boolColumns" [matColumnDef]="columnCode">
       <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
     </ng-container>
@@ -231,8 +252,8 @@
     </ng-container> -->
 
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    <mat-header-row *matHeaderRowDef="allColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: allColumns"></mat-row>
 
 
   </table>
