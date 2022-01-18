@@ -10,6 +10,7 @@ import { ColumnService } from '../services/column-service';
 import { map, pluck } from 'rxjs/operators'
 import { ColumnValue } from '../models/aboutColumn/columnValue';
 import { SplittedColumns } from '../models/aboutColumn/splitted-columns';
+import { ColumnValueType } from '../models/enums/column-value-type';
 
 @Component({
   selector: 'app-list-tourist',
@@ -25,6 +26,8 @@ export class ListTouristComponent implements OnInit {
   touristRows: any[] = [];
   tableInitialized: boolean = false;
   allColumns: string[] = [];
+  touristIdField = 'touristId';
+  columnValueType = ColumnValueType;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -71,7 +74,8 @@ export class ListTouristComponent implements OnInit {
       .subscribe(rowsValues => {
         rowsValues.forEach(rowValues => {
           let row: { [k: string]: any } = {};
-          row['touristId'] = rowValues.touristId;
+          this.touristIdField = 'touristId';
+          row[this.touristIdField] = rowValues.touristId;
           rowValues.values.forEach(value => {
             row[value.columnCode] = value.value;
           });
@@ -87,14 +91,22 @@ export class ListTouristComponent implements OnInit {
     // this.touristDataSource.sort = this.sort;
   }
 
-  update(el: Tourist, value: any, fieldName: string): void {
+  update(touristId: any, columnCode: string, value: any,  columnValueType: ColumnValueType, row: { [k: string]: any }): void {
+
     if (value == null) { return; }
-    el[fieldName] = value;
-    this.touristService.change(el).subscribe(
+
+    let columnValue = new ColumnValue();
+    columnValue.columnCode = columnCode;
+    columnValue.valueType = columnValueType;
+    columnValue.value = value;
+    row[columnCode] = value;
+
+    this.touristService.update(this.tourId, touristId, columnCode, columnValue).subscribe(
       res => {
+
       },
       err => { }
     );
-  }
+}
 
 }

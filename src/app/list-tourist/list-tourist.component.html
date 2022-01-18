@@ -24,7 +24,15 @@
 
     <ng-container *ngFor="let columnCode of displayedColumns.stringColumns" [matColumnDef]="columnCode">
       <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
+      <mat-cell *matCellDef="let row" [satPopoverAnchor]="popover"
+      (click)="popover.open()">
+      {{row[columnCode]}}
+
+        <sat-popover #popover hasBackdrop xAlign="start" yAlign="start"
+          (closed)="update(row['touristId'], columnCode, $event, columnValueType.string, row)">
+          <app-inline-edit [value]="row[columnCode]"></app-inline-edit>
+        </sat-popover>
+      </mat-cell>
     </ng-container>
 
     <ng-container *ngFor="let columnCode of displayedColumns.dateColumns" [matColumnDef]="columnCode">

@@ -1,9 +1,9 @@
 import { Inject, Injectable } from "@angular/core";
-import { Tourist } from "../models/tourist";
 import { HttpClient } from "@angular/common/http";
 import { APP_API_URL } from "../app-injection-tokens";
 import { TouristValues } from "../models/touristValues";
 import { Row } from "../models/AboutColumn/rows";
+import { ColumnValue } from "../models/aboutColumn/columnValue";
 
 @Injectable()
 export class TouristService {
@@ -25,7 +25,7 @@ export class TouristService {
     return this.http.get<Row[]>(this.baseUrl + 'Tourist/' + tourId + '/TouristRows/');
   }
 
-  change(tourist: Tourist) {
-    return this.http.post(this.baseUrl + 'Tourist/ChangeTourist', tourist);
+  update(tourId: string, touristId: string, columnCode: string, value: ColumnValue) {
+    return this.http.post(this.baseUrl + `Tourist/tour/${tourId}/tourist/${touristId}/column/${columnCode}`, value);
   }
 }
