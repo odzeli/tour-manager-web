@@ -23,6 +23,11 @@ import { MatPaginatorModule } from '@angular/material/paginator'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 //defferent components
 import { SatPopoverModule } from '@ncstate/sat-popover';
@@ -32,6 +37,7 @@ import { DatepickerModule } from 'ng2-datepicker';
 import { TourService } from './services/tour-service';
 import { TouristService } from './services/tourist-service';
 import { DashboardService } from './services/dashboard-service';
+import { AppHeaderService } from './services/app-header-service';
 
 //custom components
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -48,6 +54,10 @@ import { LogoutButtonComponent } from './common-components/logout-button/logout-
 import { InlineEditComponent } from './list-tourist/inline-edit/inline-edit.component';
 import { AuthGuard } from './guards/auth-guard';
 import { ColumnService } from './services/column-service';
+import { AdminSectionComponent } from './common-components/admin-part-button/admin-section.component';
+import { MainPanelComponent } from './admin-part/main-panel/main-panel.component';
+import { ColumnSettingsComponent } from './admin-part/column-settings/column-settings.component';
+import { ColumnsComponent } from './admin-part/columns/columns.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
@@ -65,6 +75,10 @@ export function tokenGetter() {
     LoginComponent,
     LogoutButtonComponent,
     InlineEditComponent,
+    AdminSectionComponent,
+    MainPanelComponent,
+    ColumnSettingsComponent,
+    ColumnsComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,15 +109,21 @@ export function tokenGetter() {
       }
     }),
     SatPopoverModule,
-    DatepickerModule
+    DatepickerModule,
+    MatSidenavModule,
+    MatListModule,
+    MatStepperModule,
+    MatButtonToggleModule,
+    DragDropModule,
   ],
   exports: [
     MatDatepickerModule,
     MatNativeDateModule,
     MatCardModule,
+    MatStepperModule,
   ],
   providers: [
-    AuthGuard, TouristService, TourService, DashboardService, ColumnService,
+    AuthGuard, TouristService, TourService, DashboardService, ColumnService, AppHeaderService,
     { provide: AUTH_API_URL, useValue: environment.authApi },
     { provide: APP_API_URL, useValue: environment.appApi }
   ],

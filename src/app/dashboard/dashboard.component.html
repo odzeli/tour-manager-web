@@ -1,18 +1,5 @@
 <section>
-
-  <div class="margin-left-10">
-    <h2 class="margin-top-5 margin-bottom-5"> Список туров </h2>
-  </div>
-  <div class="margin-5">
-    <a routerLink="/creating-tour"><button mat-stroked-button color="primary" matTooltip="Добавить тур">
-        Добавить</button></a>
-  </div>
-  <app-logout-button class="right-button"></app-logout-button>
-</section>
-<mat-divider></mat-divider>
-
-<section>
-  <div class="flex-direction-row width-100">
+  <div class="flex-direction-row width-100-percent">
 
     <mat-card *ngFor="let tour of tours" class="margin-10 tour-card">
       <mat-card-title>

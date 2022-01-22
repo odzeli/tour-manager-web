@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Tour } from '../models/tour';
 import { DashboardService } from '../services/dashboard-service'
-
+import { AppHeaderService } from '../services/app-header-service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -16,9 +16,13 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private dashboardService: DashboardService,
+    private appHeaderService: AppHeaderService,
   ) { }
 
   ngOnInit(): void {
+
+    const headerState = {pageName: "Список туров", extraButtons: ['addTour'], }
+    this.appHeaderService.setData(headerState);
 
     this.dashboardService.allTours().subscribe(data => {
       this.tours = data;
