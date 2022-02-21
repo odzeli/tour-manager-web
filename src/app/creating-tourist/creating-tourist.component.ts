@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Location } from '@angular/common';
+import { Location, DatePipe } from '@angular/common';
 import { TouristService } from '../services/tourist-service';
 import { ActivatedRoute } from '@angular/router';
 import { TourService } from '../services/tour-service';
@@ -8,6 +8,7 @@ import { Column } from '../models/aboutColumn/column';
 import { ColumnValueType } from '../models/enums/column-value-type';
 import { ColumnValue } from '../models/aboutColumn/columnValue';
 import { TouristValues } from '../models/touristValues';
+import { AppHeaderService } from '../services/app-header-service';
 
 @Component({
   selector: 'app-creating-tourist',
@@ -33,6 +34,8 @@ export class CreatingTouristComponent implements OnInit {
     private touristService: TouristService,
     private activatedRoute: ActivatedRoute,
     private tourService: TourService,
+    private appHeaderService: AppHeaderService,
+    private datePipe: DatePipe
   ) {
 
   }
@@ -47,6 +50,11 @@ export class CreatingTouristComponent implements OnInit {
     this.tourService.getTourStartDate(this.tourId).subscribe(
       res => {
         this.tourStartDate = res;
+        const headerState = {
+          pageName: `Добавление туриста в тур от ${this.datePipe.transform(this.tourStartDate, 'dd/MM/yyyy')}`,
+          extraButtons: ['']
+        }
+        this.appHeaderService.setData(headerState);
       }
     );
 
@@ -56,6 +64,7 @@ export class CreatingTouristComponent implements OnInit {
         this.initForm();
       }
     )
+
   }
 
   initForm() {

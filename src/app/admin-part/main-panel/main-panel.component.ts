@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppHeaderService } from '../../services/app-header-service';
 
 @Component({
   selector: 'app-main-panel',
@@ -11,9 +12,11 @@ export class MainPanelComponent implements OnInit {
   opened: boolean = true;
   menuItem = MenuItem;
 
-  constructor() { }
+  constructor(private appHeaderService: AppHeaderService) { }
 
   ngOnInit(): void {
+    const headerState = {pageName: "Панель администратора", extraButtons: [''] }
+    this.appHeaderService.setData(headerState);
   }
 
   toggleMenuItem(menuItem: MenuItem){

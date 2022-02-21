@@ -32,6 +32,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 //defferent components
 import { SatPopoverModule } from '@ncstate/sat-popover';
 import { DatepickerModule } from 'ng2-datepicker';
+import { DatePipe } from '@angular/common';
 
 //services
 import { TourService } from './services/tour-service';
@@ -115,6 +116,7 @@ export function tokenGetter() {
     MatStepperModule,
     MatButtonToggleModule,
     DragDropModule,
+
   ],
   exports: [
     MatDatepickerModule,
@@ -123,7 +125,7 @@ export function tokenGetter() {
     MatStepperModule,
   ],
   providers: [
-    AuthGuard, TouristService, TourService, DashboardService, ColumnService, AppHeaderService,
+    AuthGuard, TouristService, TourService, DashboardService, ColumnService, AppHeaderService, DatePipe,
     { provide: AUTH_API_URL, useValue: environment.authApi },
     { provide: APP_API_URL, useValue: environment.appApi }
   ],

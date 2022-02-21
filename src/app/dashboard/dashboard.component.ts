@@ -21,11 +21,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const headerState = {pageName: "Список туров", extraButtons: ['addTour'], }
-    this.appHeaderService.setData(headerState);
-
     this.dashboardService.allTours().subscribe(data => {
       this.tours = data;
+      const headerState = {pageName: "Список туров", extraButtons: ['addTour'], }
+      this.appHeaderService.setData(headerState);
     });
 
   }

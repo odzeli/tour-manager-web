@@ -12,7 +12,10 @@ export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+     private router: Router,
+     ) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -32,10 +35,6 @@ export class LoginComponent implements OnInit {
             alert("Wrong login or password.");
           });
     }
-  }
-
-  public logout = () => {
-    this.authService.logout();
   }
 
 }

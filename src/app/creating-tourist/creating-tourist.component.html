@@ -1,16 +1,4 @@
 <section>
-  <div class="margin-left-10 margin-top-5">
-    <app-back-arrow></app-back-arrow>
-  </div>
-  <div class="margin-5">
-    <h2 class="margin-top-5 margin-bottom-5">Добавление туриста в тур от {{tourStartDate | date: 'dd/MM/yyyy'}}</h2>
-  </div>
-  <app-logout-button class="right-button"></app-logout-button>
-</section>
-
-<mat-divider></mat-divider>
-
-<section>
   <mat-card>
     <form [formGroup]="creatingTouristForm" autocomplete="off" novalidate
       (ngSubmit)="addTourist(creatingTouristForm.value)">

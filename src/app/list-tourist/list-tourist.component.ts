@@ -11,6 +11,8 @@ import { map, pluck } from 'rxjs/operators'
 import { ColumnValue } from '../models/aboutColumn/columnValue';
 import { SplittedColumns } from '../models/aboutColumn/splitted-columns';
 import { ColumnValueType } from '../models/enums/column-value-type';
+import { AppHeaderService } from '../services/app-header-service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-list-tourist',
@@ -28,12 +30,15 @@ export class ListTouristComponent implements OnInit {
   allColumns: string[] = [];
   touristIdField = 'touristId';
   columnValueType = ColumnValueType;
+  columnCodeToNameMap: {[k: string]: string } = {};
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private touristService: TouristService,
     private tourService: TourService,
     private columnService: ColumnService,
+    private appHeaderService: AppHeaderService,
+    private datePipe: DatePipe,
   ) { }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -47,10 +52,14 @@ export class ListTouristComponent implements OnInit {
     this.tourService.getTourStartDate(this.tourId).subscribe(
       res => {
         this.tourStartDate = res;
+        const headerState = {pageName: `Список туристов от ${this.datePipe.transform(this.tourStartDate, 'dd/MM/yyyy')}`, extraButtons: ['addTourist'], tourId: this.tourId}
+        this.appHeaderService.setData(headerState);
       }
     );
 
     this.columnsCode(this.tourId);
+
+
   }
 
   columnsCode(tourId: string): void {
@@ -78,6 +87,7 @@ export class ListTouristComponent implements OnInit {
           row[this.touristIdField] = rowValues.touristId;
           rowValues.values.forEach(value => {
             row[value.columnCode] = value.value;
+            this.columnCodeToNameMap[value.columnCode] = value.columnName;
           });
           this.touristRows.push(row);
         });

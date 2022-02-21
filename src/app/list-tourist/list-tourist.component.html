@@ -1,29 +1,8 @@
-<section>
-  <div class="margin-left-10 margin-top-5">
-    <app-back-arrow></app-back-arrow>
-  </div>
-  <div class="margin-5 flex-grow-1">
-    <h2 class="margin-top-5 margin-bottom-5">Список туристов {{tourStartDate | date: 'dd/MM/yyyy'}}</h2>
-  </div>
-  <div class="margin-5 right-button">
-    <a [routerLink]="['/creating-tourist', tourId]"><button mat-icon-button color="primary" class="float-right"
-        matTooltip="Добавить туриста">
-        <mat-icon>add</mat-icon>
-      </button></a>
-  </div>
-
-  <app-logout-button class="right-button"></app-logout-button>
-
-</section>
-
-<mat-divider></mat-divider>
-
-
 <div class="padding-10" *ngIf="tableInitialized">
   <table mat-table [dataSource]="touristDataSource" class="mat-elevation-z8 tourists-table">
 
     <ng-container *ngFor="let columnCode of displayedColumns.stringColumns" [matColumnDef]="columnCode">
-      <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
       <mat-cell *matCellDef="let row" [satPopoverAnchor]="popover"
       (click)="popover.open()">
       {{row[columnCode]}}
@@ -36,23 +15,23 @@
     </ng-container>
 
     <ng-container *ngFor="let columnCode of displayedColumns.dateColumns" [matColumnDef]="columnCode">
-      <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row[columnCode] | date : "dd/MM/yyyy"}}</mat-cell>
     </ng-container>
 
     <ng-container *ngFor="let columnCode of displayedColumns.numberColumns" [matColumnDef]="columnCode">
-      <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
     </ng-container>
 
     <ng-container *ngFor="let columnCode of displayedColumns.guidColumns" [matColumnDef]="columnCode">
-      <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
     </ng-container>
 
 
     <ng-container *ngFor="let columnCode of displayedColumns.boolColumns" [matColumnDef]="columnCode">
-      <mat-header-cell *matHeaderCellDef>{{columnCode}}</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
     </ng-container>
 
