@@ -58,8 +58,6 @@ export class ListTouristComponent implements OnInit {
     );
 
     this.columnsCode(this.tourId);
-
-
   }
 
   columnsCode(tourId: string): void {

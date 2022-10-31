@@ -16,9 +16,20 @@ export class InlineEditComponent implements OnInit {
     this.changingValue = this._value = x;
   }
   private _value = '';
+  @Input() datePicker: boolean;
+
+  @Input()
+  get dateValue(): Date { return this._dateValue; }
+  set dateValue(x: Date) {
+    this.dateChangingValue = this._dateValue = x;
+  }
+  private _dateValue = new Date();
+
+  isDatePicker: boolean = false;
 
   /** Form model for the input. */
   changingValue = '';
+  dateChangingValue: Date;
 
   constructor(@Optional() @Host() public popover: SatPopover) { }
 
@@ -28,6 +39,8 @@ export class InlineEditComponent implements OnInit {
       this.popover.closed.pipe(filter(val => val == null))
         .subscribe(() => this.changingValue = this.value || '');
     }
+    console.log(this.datePicker);
+    this.isDatePicker = this.datePicker;
   }
 
   onSubmit() {
