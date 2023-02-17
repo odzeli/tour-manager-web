@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Location, DatePipe } from '@angular/common';
 import { TouristService } from '../services/tourist-service';
 import { ActivatedRoute } from '@angular/router';
@@ -44,7 +44,7 @@ export class CreatingTouristComponent implements OnInit {
     this.creatingTouristForm = this.fb.group({});
 
     this.activatedRoute.paramMap.subscribe(params => {
-      this.tourId = params.get("tourId");
+      this.tourId = params.get("tourId") as string;
     });
 
     this.tourService.getTourStartDate(this.tourId).subscribe(

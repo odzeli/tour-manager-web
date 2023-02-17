@@ -1,14 +1,15 @@
-import { Inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Tour } from "../models/tour"
-import { APP_API_URL } from "../app-injection-tokens";
 import { Column } from "../models/aboutColumn/column";
+import { Injectable } from "@angular/core";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TourService {
-  baseUrl = this.appApi + "/api/Tour/";
+  baseUrl = "http://localhost:5000" + "/api/Tour/";
 
-  constructor(private http: HttpClient, @Inject(APP_API_URL) private appApi) { }
+  constructor(private http: HttpClient) { }
 
   public add(tour: Tour) {
     return this.http.post(this.baseUrl, tour);

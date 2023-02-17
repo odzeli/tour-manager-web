@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../../src/app/services/auth.service';
+import { IdentityAuthService } from '../../identity/identity-auth.service';
 import { AppHeaderService } from '../../services/app-header-service';
 
 @Component({
@@ -10,14 +10,16 @@ import { AppHeaderService } from '../../services/app-header-service';
 export class LogoutButtonComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
-    private appHeaderService: AppHeaderService) { }
+    private appHeaderService: AppHeaderService,
+    private identityAuthService: IdentityAuthService
+    ) { }
 
   ngOnInit(): void {
   }
 
   logout(){
-    this.authService.logout();
-    this.appHeaderService.setData(null);
+    // this.authService.logout();
+    // this.appHeaderService.setData(null);
+    this.identityAuthService.startAuthentication();
   }
 }

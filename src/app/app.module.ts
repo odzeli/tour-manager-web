@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 //Material
@@ -24,10 +24,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { MatListModule } from '@angular/material/list';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 //defferent components
 import { SatPopoverModule } from '@ncstate/sat-popover';
@@ -46,24 +46,16 @@ import { CreatingTourComponent } from './creating-tour/creating-tour.component';
 import { BackArrowComponent } from './common-components/back-arrow/back-arrow.component';
 import { CreatingTouristComponent } from './creating-tourist/creating-tourist.component';
 import { ListTouristComponent } from './list-tourist/list-tourist.component';
-import { APP_API_URL, AUTH_API_URL } from './app-injection-tokens';
-import { environment } from '../../src/environments/environment';
-import { JwtModule } from '@auth0/angular-jwt';
-import { ACCESS_TOKEN_KEY } from './services/auth.service';
-import { LoginComponent } from './login/login.component';
 import { LogoutButtonComponent } from './common-components/logout-button/logout-button.component';
 import { InlineEditComponent } from './list-tourist/inline-edit/inline-edit.component';
-import { AuthGuard } from './guards/auth-guard';
+import { OidcAuthGuard } from './guards/oidc-auth-guard';
 import { ColumnService } from './services/column-service';
 import { AdminSectionComponent } from './common-components/admin-part-button/admin-section.component';
 import { MainPanelComponent } from './admin-part/main-panel/main-panel.component';
 import { ColumnSettingsComponent } from './admin-part/column-settings/column-settings.component';
 import { ColumnsComponent } from './admin-part/columns/columns.component';
-
-export function tokenGetter() {
-  return localStorage.getItem(ACCESS_TOKEN_KEY);
-}
-
+import { SigninCallbackOidcComponent } from './identity/signin-callback-oidc/signin-callback-oidc.component';
+import { AuthInterceptor } from './guards/oidc-token-interceptor';
 
 @NgModule({
   declarations: [
@@ -73,13 +65,13 @@ export function tokenGetter() {
     BackArrowComponent,
     CreatingTouristComponent,
     ListTouristComponent,
-    LoginComponent,
     LogoutButtonComponent,
     InlineEditComponent,
     AdminSectionComponent,
     MainPanelComponent,
     ColumnSettingsComponent,
     ColumnsComponent,
+    SigninCallbackOidcComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,12 +95,6 @@ export function tokenGetter() {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTooltipModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter,
-        allowedDomains: environment.tokenWhiteListedDomains
-      }
-    }),
     SatPopoverModule,
     DatepickerModule,
     MatSidenavModule,
@@ -125,9 +111,8 @@ export function tokenGetter() {
     MatStepperModule,
   ],
   providers: [
-    AuthGuard, TouristService, TourService, DashboardService, ColumnService, AppHeaderService, DatePipe,
-    { provide: AUTH_API_URL, useValue: environment.authApi },
-    { provide: APP_API_URL, useValue: environment.appApi }
+    OidcAuthGuard, TouristService, TourService, DashboardService, ColumnService, AppHeaderService, DatePipe,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true },
   ],
   bootstrap: [AppComponent]
 })

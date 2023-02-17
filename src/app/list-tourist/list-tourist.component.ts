@@ -5,9 +5,7 @@ import { TouristService } from '../services/tourist-service';
 import { TourService } from '../services/tour-service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Row } from '../models/AboutColumn/rows';
 import { ColumnService } from '../services/column-service';
-import { map, pluck } from 'rxjs/operators'
 import { ColumnValue } from '../models/aboutColumn/columnValue';
 import { SplittedColumns } from '../models/aboutColumn/splitted-columns';
 import { ColumnValueType } from '../models/enums/column-value-type';
@@ -46,7 +44,7 @@ export class ListTouristComponent implements OnInit {
   ngOnInit(): void {
 
     this.activatedRoute.paramMap.subscribe(params => {
-      this.tourId = params.get("tourId");
+      this.tourId = params.get("tourId") as string;
     });
 
     this.tourService.getTourStartDate(this.tourId).subscribe(

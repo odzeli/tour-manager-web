@@ -1,16 +1,17 @@
-import { Inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { APP_API_URL } from "../app-injection-tokens";
 import { TouristValues } from "../models/touristValues";
 import { Row } from "../models/AboutColumn/rows";
 import { ColumnValue } from "../models/aboutColumn/columnValue";
+import { Injectable } from "@angular/core";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TouristService {
 
-  baseUrl = this.appApi + "/api/";
+  baseUrl = "http://localhost:5000" + "/api/";
 
-  constructor(private http: HttpClient, @Inject(APP_API_URL) private appApi){
+  constructor(private http: HttpClient){
 
   }
 

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginComponent } from './login.component';
+import { SigninCallbackOidcComponent } from './signin-callback-oidc.component';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('SigninCallbackOidcComponent', () => {
+  let component: SigninCallbackOidcComponent;
+  let fixture: ComponentFixture<SigninCallbackOidcComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
+      declarations: [ SigninCallbackOidcComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(SigninCallbackOidcComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

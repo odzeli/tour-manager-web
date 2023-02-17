@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Tour } from '../models/tour';
 import { DashboardService } from '../services/dashboard-service'
 import { AppHeaderService } from '../services/app-header-service';
+import { IdentityAuthService } from '../identity/identity-auth.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -17,6 +18,7 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private dashboardService: DashboardService,
     private appHeaderService: AppHeaderService,
+    private identityAuthService: IdentityAuthService
   ) { }
 
   ngOnInit(): void {

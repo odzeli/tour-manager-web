@@ -1,4 +1,5 @@
-<section *ngIf="authenticated && appHeaderState != null">
+<!-- <section *ngIf="authenticated && appHeaderState != null"> -->
+<section *ngIf="appHeaderState != null">
   <div class="margin-top-5">
     <app-back-arrow></app-back-arrow>
   </div>
@@ -12,6 +13,7 @@
       </button>
     </a>
   </div>
+  {{user}}
 
   <section class="right-button-group">
     <div class="margin-5 right-button" *ngIf='addTouristAvailable'>
