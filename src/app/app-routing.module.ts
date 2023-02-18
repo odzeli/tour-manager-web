@@ -9,11 +9,13 @@ import { MainPanelComponent } from './admin-part/main-panel/main-panel.component
 import { ColumnSettingsComponent } from './admin-part/column-settings/column-settings.component';
 import { SigninCallbackOidcComponent } from './identity/signin-callback-oidc/signin-callback-oidc.component';
 import { OidcAuthGuard } from './guards/oidc-auth-guard';
+import { SignoutCallbackOidcComponent } from './identity/signout-callback-oidc/signout-callback-oidc.component';
 
 const appRoutes: Routes = [
 
   //oidc
   { path: 'signin-callback', component: SigninCallbackOidcComponent },
+  { path: 'signout-callback', component: SignoutCallbackOidcComponent },
 
   // { path: '', component: LoginComponent },
   { path: '', component: DashboardComponent, canActivate: [OidcAuthGuard] },

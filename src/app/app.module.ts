@@ -56,6 +56,7 @@ import { ColumnSettingsComponent } from './admin-part/column-settings/column-set
 import { ColumnsComponent } from './admin-part/columns/columns.component';
 import { SigninCallbackOidcComponent } from './identity/signin-callback-oidc/signin-callback-oidc.component';
 import { AuthInterceptor } from './guards/oidc-token-interceptor';
+import { SignoutCallbackOidcComponent } from './identity/signout-callback-oidc/signout-callback-oidc.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { AuthInterceptor } from './guards/oidc-token-interceptor';
     ColumnSettingsComponent,
     ColumnsComponent,
     SigninCallbackOidcComponent,
+    SignoutCallbackOidcComponent,
   ],
   imports: [
     BrowserModule,

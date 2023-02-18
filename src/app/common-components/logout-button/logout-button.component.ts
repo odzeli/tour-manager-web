@@ -18,8 +18,6 @@ export class LogoutButtonComponent implements OnInit {
   }
 
   logout(){
-    // this.authService.logout();
-    // this.appHeaderService.setData(null);
-    this.identityAuthService.startAuthentication();
+    this.identityAuthService.signOut();
   }
 }

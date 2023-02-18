@@ -13,7 +13,7 @@ export class OidcAuthGuard implements CanActivate {
 
 
   private authenticationChecker(){
-    return this.identityAuthService.Authenticated().then(authenticated => {
+    return this.identityAuthService.isAuthenticated().then(authenticated => {
       if(authenticated){
         return true;
       }

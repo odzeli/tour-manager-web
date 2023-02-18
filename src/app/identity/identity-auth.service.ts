@@ -20,9 +20,14 @@ export class IdentityAuthService {
       scope: "openid profile tour-manager-app",
       response_type: "code",
 
-      post_logout_redirect_uri: `${Constans.clientRoot}/signout-callback`,
+      post_logout_redirect_uri: `${Constans.clientRoot}/`,
       redirect_uri: `${Constans.clientRoot}/signin-callback`,
 
+      silent_redirect_uri: 'http://localhost:4200/',
+      automaticSilentRenew: true,
+
+      loadUserInfo: true,
+      filterProtocolClaims: true
       // userStore: new WebStorageStateStore({ store: window.localStorage }),
       // loadUserInfo: true,
       // response_mode: "query"
@@ -35,6 +40,10 @@ export class IdentityAuthService {
 
   public startAuthentication = (): Promise<void> => {
     return this.userManager.signinRedirect();
+  }
+
+  public signOut() {
+    return this.userManager.signoutRedirect();
   }
 
   public completeAuthentication = (): Promise<void> => {
@@ -53,7 +62,7 @@ export class IdentityAuthService {
     return `${this.user.access_token}`;
   }
 
-  public Authenticated = (): Promise<boolean> => {
+  public isAuthenticated = (): Promise<boolean> => {
     return this.userManager.getUser()
       .then(currentUser => {
         if (this.user !== currentUser) {
