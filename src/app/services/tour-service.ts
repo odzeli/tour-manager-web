@@ -7,7 +7,8 @@ import { Injectable } from "@angular/core";
   providedIn: 'root',
 })
 export class TourService {
-  baseUrl = "http://localhost:5000" + "/api/Tour/";
+  // "http://localhost:5000"
+  baseUrl = "https://tourmanagerapi.azurewebsites.net" + "/api/Tour/";
 
   constructor(private http: HttpClient) { }
 

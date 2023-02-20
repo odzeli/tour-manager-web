@@ -4,8 +4,8 @@ import { SplittedColumns } from "../models/aboutColumn/splitted-columns";
 import { StandardColumn } from "../models/aboutColumn/standard-column";
 @Injectable()
 export class ColumnService {
-
-  baseUrl = "http://localhost:5000" + "/api/";
+// "http://localhost:5000"
+baseUrl = "https://tourmanagerapi.azurewebsites.net" + "/api/";
 
   constructor(private http: HttpClient) {
 
