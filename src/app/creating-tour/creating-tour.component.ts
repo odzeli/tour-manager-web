@@ -2,8 +2,9 @@ import { Component, OnInit, ɵSWITCH_COMPILE_DIRECTIVE__POST_R3__ } from '@angul
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TourForCreation } from '../models/abstract/tour-for-creation';
 import { Location } from '@angular/common';
-import { TourService } from '../services/tour-service';
+import { TourService } from '../services/api/tour-service';
 import { Tour } from '../models/tour';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-creating-tour',
@@ -36,7 +37,11 @@ export class CreatingTourComponent implements OnInit {
 
   public createTour = (tourFormValue: Tour) => {
     if (this.tourForm.valid) {
-      this.tourService.save(tourFormValue).subscribe();
+      this.tourService.add(tourFormValue).pipe(
+        finalize(() => {
+          this.onCancel();
+        })
+      ).subscribe();
     }
   }
 

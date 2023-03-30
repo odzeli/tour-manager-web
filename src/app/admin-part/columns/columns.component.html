@@ -1,0 +1,3 @@
+<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+  <div class="example-box" *ngFor="let column of standardColumns" cdkDrag>{{column.name}}</div>
+</div>

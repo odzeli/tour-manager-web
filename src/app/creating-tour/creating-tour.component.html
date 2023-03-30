@@ -1,14 +1,5 @@
 <section>
-  <div class="margin-5">
-    <app-back-arrow></app-back-arrow>
-  </div>
-  <div class="margin-5">
-    <h1>Добавление тура</h1>
-  </div>
-</section>
-<mat-divider></mat-divider>
-<section>
-  <mat-card>
+  <mat-card class="width-100-percent">
     <mat-card-title>Добавление нового тура</mat-card-title>
 
     <form [formGroup]="tourForm" autocomplete="off" novalidate (ngSubmit)="createTour(tourForm.value)">

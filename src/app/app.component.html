@@ -1,1 +1,31 @@
+<!-- <section *ngIf="authenticated && appHeaderState != null"> -->
+<section *ngIf="appHeaderState != null">
+  <div class="margin-top-5">
+    <app-back-arrow></app-back-arrow>
+  </div>
+  <div class="margin-top-4">
+    <h2 class="margin-top-5 margin-bottom-5"> {{appHeaderState.pageName}} </h2>
+  </div>
+  <div class="margin-5 margin-top-7 margin-left-10" *ngIf="addTourAvailable">
+    <a routerLink="/creating-tour">
+      <button mat-stroked-button color="primary" matTooltip="Добавить тур">
+        Добавить
+      </button>
+    </a>
+  </div>
+  {{user}}
+
+  <section class="right-button-group">
+    <div class="margin-5 right-button" *ngIf='addTouristAvailable'>
+      <a [routerLink]="['/creating-tourist', this.appHeaderState.tourId]"><button mat-icon-button color="primary" class="float-right"
+          matTooltip="Добавить туриста">
+          <mat-icon>add</mat-icon>
+        </button></a>
+    </div>
+    <app-admin-section></app-admin-section>
+    <app-logout-button></app-logout-button>
+  </section>
+</section>
+<mat-divider></mat-divider>
+
 <router-outlet></router-outlet>

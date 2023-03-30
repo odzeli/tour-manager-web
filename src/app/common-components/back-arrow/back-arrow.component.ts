@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-back-arrow',
@@ -8,10 +8,15 @@ import {Location} from '@angular/common';
 })
 export class BackArrowComponent implements OnInit {
 
-  constructor(private location: Location) { }
+  constructor(
+    private location: Location,
+  ) { }
 
-  public back(){
-    this.location.back();
+  public back() {
+    const baseUrl = this.location.isCurrentPathEqualTo('');
+    const dashboardUrl = this.location.isCurrentPathEqualTo('dashboard')
+    if (!baseUrl && !dashboardUrl)
+      this.location.back();
   }
 
   ngOnInit(): void {

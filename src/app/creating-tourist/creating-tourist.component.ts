@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
-import { Tourist } from '../models/tourist';
-import { ApartmentType } from '../models/enums/apartment-type';
-import { TouristService } from '../services/tourist-service';
-import { ActivatedRoute} from '@angular/router';
-
-interface ApartmentOption {
-  value: ApartmentType,
-  viewValue: string
-}
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Location, DatePipe } from '@angular/common';
+import { TouristService } from '../services/api/tourist-service';
+import { ActivatedRoute } from '@angular/router';
+import { TourService } from '../services/api/tour-service';
+import { Column } from '../models/aboutColumn/column';
+import { ColumnValueType } from '../models/enums/column-value-type';
+import { ColumnValue } from '../models/aboutColumn/columnValue';
+import { TouristValues } from '../models/touristValues';
+import { AppHeaderService } from '../services/app-header-service';
 
 @Component({
   selector: 'app-creating-tourist',
@@ -18,47 +17,71 @@ interface ApartmentOption {
 })
 export class CreatingTouristComponent implements OnInit {
   creatingTouristForm: FormGroup;
-  apartmentOptions: ApartmentOption[];
-  selectedRoomType: ApartmentOption;
   tourId: string;
+  tourStartDate: Date;
+  columns: Column[];
+  formInitiated: boolean;
+  columnValueType = ColumnValueType;
 
-  constructor(private fb: FormBuilder, private location: Location, private touristService: TouristService, private activatedRoute: ActivatedRoute) { }
+  stringColumns: Column[] = [];
+  numberColumns: Column[] = [];
+  dateColumns: Column[] = [];
+  date = new Date();
+
+  constructor(
+    private fb: FormBuilder,
+    private location: Location,
+    private touristService: TouristService,
+    private activatedRoute: ActivatedRoute,
+    private tourService: TourService,
+    private appHeaderService: AppHeaderService,
+    private datePipe: DatePipe
+  ) {
+
+  }
 
   ngOnInit(): void {
-    this.initForm();
-    this.apartmentOptions = this.initApartmentDropDown();
+    this.creatingTouristForm = this.fb.group({});
 
     this.activatedRoute.paramMap.subscribe(params => {
-      this.tourId = params.get("tourId");
-     });
+      this.tourId = params.get("tourId") as string;
+    });
+
+    this.tourService.getTourStartDate(this.tourId).subscribe(
+      res => {
+        this.tourStartDate = res;
+        const headerState = {
+          pageName: `Добавление туриста в тур от ${this.datePipe.transform(this.tourStartDate, 'dd/MM/yyyy')}`,
+          extraButtons: ['']
+        }
+        this.appHeaderService.setData(headerState);
+      }
+    );
+
+    this.tourService.getColumns(this.tourId).subscribe(
+      res => {
+        this.columns = res;
+        this.initForm();
+      }
+    )
+
   }
 
   initForm() {
-    this.creatingTouristForm = this.fb.group({
-      name: ['', [
-        Validators.required,
-        Validators.pattern(/[А-я]/)
-      ]],
-      phoneNumber: ['',
-        [
-          Validators.pattern(/^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/)
-        ]],
-      birthday: [new Date()],
-      passportNumber: [],
-      arrivalDateAndTime: [new Date()],
-      departureDateAndTime: [new Date()],
-      checkInDate: [new Date()],
-      checkOutDate: [new Date()],
-      hotelNights: [],
-      tourDays: [],
-      stars: [],
-      apartmentType: [],
-      hotel: [],
-      comment: [],
-      closePrice: [],
-      addition: [],
-      arrivalTransportType: [],
-      departureTransportType: []
+    let today = new Date();
+    this.columns.forEach(c => {
+      if (c.valueType == ColumnValueType.string) {
+        this.stringColumns.push(c);
+        this.creatingTouristForm.addControl(c.code, this.fb.control(''));
+      }
+      if (c.valueType == ColumnValueType.int || c.valueType == ColumnValueType.decimal) {
+        this.numberColumns.push(c);
+        this.creatingTouristForm.addControl(c.code, this.fb.control(''));
+      }
+      if (c.valueType == ColumnValueType.dateTime) {
+        this.dateColumns.push(c);
+        this.creatingTouristForm.addControl(c.code, this.fb.control(today));
+      }
     });
   }
 
@@ -66,62 +89,27 @@ export class CreatingTouristComponent implements OnInit {
     this.location.back();
   }
 
-  public addTourist(t: Tourist) {
+  public addTourist(columns: any) {
+    let touristValues = new TouristValues();
+    touristValues.tourId = this.tourId;
+    touristValues.columnValues = [];
     if (this.creatingTouristForm.valid) {
-      let tourist: Tourist ={
-        tourId: this.tourId,
-        name: t.name,
-        birthday: t.birthday,
-        passportNumber: t.passportNumber,
-        arrivalDateAndTime: t.arrivalDateAndTime,
-        arrivalTransportType: t.arrivalTransportType,
-        checkInDate: t.checkInDate,
-        departureDateAndTime: t.departureDateAndTime,
-        departureTransportType: t.departureTransportType,
-        checkOutDate: t.checkOutDate,
-        tourDays: 0,
-        hotelNights: 0,
-        stars: 0,
-        apartmentType: 0,
-        phoneNumber: t.phoneNumber,
-        hotel: t.hotel,
-        closePrice: 0,
-        addition: t.addition,
-        comment: t.comment,
-        id: ''
-      };
-      // {
-      //   id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      //   name: "string",
-      //   birthday: new Date(),
-      //   passportNumber: "string",
-      //   arrivalDateAndTime: new Date(),
-      //   arrivalTransportType: "string",
-      //   checkInDate: new Date(),
-      //   departureDateAndTime: new Date(),
-      //   departureTransportType: "string",
-      //   checkOutDate: new Date(),
-      //   tourDays: 0,
-      //   hotelNights: 0,
-      //   stars: 0,
-      //   apartmentType: 0,
-      //   phoneNumber: "string",
-      //   hotel: "string",
-      //   closePrice: 0,
-      //   addition: "string",
-      //   comment: "string"
-      // };
-
-      tourist.id = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
-      this.touristService.setTourist(tourist).subscribe();
+      let properties = Object.getOwnPropertyNames(columns);
+      properties.forEach(p => {
+        let a = new ColumnValue();
+        a.columnCode = p;
+        touristValues.columnValues.push(a);
+      });
+      touristValues.columnValues.forEach(c => {
+        c.value = columns[c.columnCode];
+      });
     }
+    this.touristService.addTourist(touristValues)
+      .subscribe(
+        res => {
+          this.onCancel();
+        }
+      );
   }
 
-  private initApartmentDropDown(): ApartmentOption[] {
-    return [
-      { value: ApartmentType.Single, viewValue: 'Single' },
-      { value: ApartmentType.Double, viewValue: 'Double' },
-      { value: ApartmentType.Twin, viewValue: 'Twin' },
-    ]
-  }
 }

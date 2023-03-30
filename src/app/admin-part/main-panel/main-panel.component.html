@@ -1,0 +1,22 @@
+<mat-sidenav-container class="min-height-100-percent width-100-percent">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="side-menu">
+    <div class="admin-menu-list-title">
+      Админ меню
+    </div>
+    <mat-divider></mat-divider>
+
+    <mat-action-list>
+      <button mat-list-item (click)="toggleMenuItem(menuItem.columnSettings)"> Настройка колонок </button>
+    </mat-action-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <button mat-button (click)="sidenav.toggle()">
+      <mat-icon>{{opened ? 'chevron_left' : 'chevron_right'}}</mat-icon>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-raised-button color="primary" class="add-new-column" *ngIf="allColumnSettingsOpened" (click)="addNewColumn()">Добавить новую колонку</button>
+    <app-columns *ngIf="allColumnSettingsOpened" class="padding-10"></app-columns>
+    <app-column-settings *ngIf="columnSettingsOpened"></app-column-settings>
+  </mat-sidenav-content>
+</mat-sidenav-container>

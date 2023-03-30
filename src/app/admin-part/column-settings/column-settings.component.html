@@ -1,0 +1,45 @@
+<section class="width-100-percent">
+  <mat-horizontal-stepper #stepper class="width-100-percent">
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup" novalidate>
+        <ng-template matStepLabel>Колонка</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Название</mat-label>
+          <input matInput placeholder="Название" formControlName="columnName" required>
+        </mat-form-field>
+        <mat-form-field class="margin-left-10" appearance="fill">
+          <mat-label>Уникальный код</mat-label>
+          <input matInput placeholder="кникальный код" formControlName="columnCode" required>
+        </mat-form-field>
+        <div>
+          Выберите тип колонки
+          <mat-button-toggle-group formControlName="columnType" aria-label="Column type">
+            <mat-button-toggle [value]="columnValueType.string">Строковый</mat-button-toggle>
+            <mat-button-toggle [value]="columnValueType.decimal">Десятичный</mat-button-toggle>
+            <mat-button-toggle [value]="columnValueType.int">Целочисленный</mat-button-toggle>
+            <mat-button-toggle [value]="columnValueType.bool">Логический</mat-button-toggle>
+            <mat-button-toggle [value]="columnValueType.dateTime">Дата и время</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <!-- <div>
+          Где показывать
+          <mat-button-toggle-group formControlName="shouldDisplay" aria-label="Column type">
+            <mat-button-toggle [value]="true">В гриде</mat-button-toggle>
+            <mat-button-toggle [value]="false">В персональной панеле</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div> -->
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="save()">Save</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</section>

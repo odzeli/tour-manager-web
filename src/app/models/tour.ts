@@ -4,4 +4,7 @@ export class Tour implements TourForCreation {
   startDate: Date;
   guides: string;
   drivers: string;
+  touristNumber: number;
+  endDate: Date;
+  touristsInProcess: number;
 }
