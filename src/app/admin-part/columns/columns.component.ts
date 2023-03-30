@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { StandardColumn } from '../../models/aboutColumn/standard-column';
-import { ColumnService } from '../../services/column-service';
+import { ColumnService } from '../../services/api/column-service';
 
 @Component({
   selector: 'app-columns',

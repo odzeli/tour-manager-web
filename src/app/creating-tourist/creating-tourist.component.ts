@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Location, DatePipe } from '@angular/common';
-import { TouristService } from '../services/tourist-service';
+import { TouristService } from '../services/api/tourist-service';
 import { ActivatedRoute } from '@angular/router';
-import { TourService } from '../services/tour-service';
+import { TourService } from '../services/api/tour-service';
 import { Column } from '../models/aboutColumn/column';
 import { ColumnValueType } from '../models/enums/column-value-type';
 import { ColumnValue } from '../models/aboutColumn/columnValue';

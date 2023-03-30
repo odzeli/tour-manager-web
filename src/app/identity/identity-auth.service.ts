@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserManager, User, UserManagerSettings, WebStorageStateStore } from 'oidc-client';
 import { Subject } from 'rxjs';
-import { Constans } from '../constans';
+import { Constants } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +15,16 @@ export class IdentityAuthService {
 
   private get idpSettings(): UserManagerSettings {
     return {
-      authority: Constans.idpAuthority,
-      client_id: Constans.clientId,
+      authority: Constants.idpAuthority,
+      client_id: Constants.clientId,
       scope: "openid profile tour-manager-app",
       response_type: "code",
 
-      post_logout_redirect_uri: `${Constans.clientRoot}/`,
-      redirect_uri: `${Constans.clientRoot}/signin-callback`,
+      post_logout_redirect_uri: `${Constants.clientRoot}/`,
+      redirect_uri: `${Constants.clientRoot}/signin-callback`,
 
-      silent_redirect_uri: 'http://localhost:4200/',
+      silent_redirect_uri: Constants.clientRoot,
+
       automaticSilentRenew: true,
 
       loadUserInfo: true,

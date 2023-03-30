@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Tourist } from '../models/tourist';
-import { TouristService } from '../services/tourist-service';
-import { TourService } from '../services/tour-service';
+import { TouristService } from '../services/api/tourist-service';
+import { TourService } from '../services/api/tour-service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ColumnService } from '../services/column-service';
+import { ColumnService } from '../services/api/column-service';
 import { ColumnValue } from '../models/aboutColumn/columnValue';
 import { SplittedColumns } from '../models/aboutColumn/splitted-columns';
 import { ColumnValueType } from '../models/enums/column-value-type';

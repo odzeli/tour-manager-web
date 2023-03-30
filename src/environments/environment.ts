@@ -2,18 +2,11 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-// export const environment = {
-//   production: false,
-//   authApi: 'http://localhost:36333',
-//   appApi: 'http://localhost:5000',
-//   tokenWhiteListedDomains: ['localhost:5000']
-// };
-
 export const environment = {
   production: false,
   authApi: 'http://localhost:36333',
-  appApi: 'https://tourmanagerapi.azurewebsites.net',
-  tokenWhiteListedDomains: ['tourmanagerapi.azurewebsites.net']
+  appApi: 'http://localhost:5000',
+  tokenWhiteListedDomains: ['localhost:5000']
 };
 
 /*

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StandardColumn } from '../../models/aboutColumn/standard-column';
 import { ColumnValueType } from '../../models/enums/column-value-type';
-import { ColumnService } from '../../services/column-service';
+import { ColumnService } from '../../services/api/column-service';
 
 @Component({
   selector: 'app-column-settings',

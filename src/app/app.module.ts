@@ -35,9 +35,9 @@ import { DatepickerModule } from 'ng2-datepicker';
 import { DatePipe } from '@angular/common';
 
 //services
-import { TourService } from './services/tour-service';
-import { TouristService } from './services/tourist-service';
-import { DashboardService } from './services/dashboard-service';
+import { TourService } from './services/api/tour-service';
+import { TouristService } from './services/api/tourist-service';
+import { DashboardService } from './services/api/dashboard-service';
 import { AppHeaderService } from './services/app-header-service';
 
 //custom components
@@ -49,7 +49,7 @@ import { ListTouristComponent } from './list-tourist/list-tourist.component';
 import { LogoutButtonComponent } from './common-components/logout-button/logout-button.component';
 import { InlineEditComponent } from './list-tourist/inline-edit/inline-edit.component';
 import { OidcAuthGuard } from './guards/oidc-auth-guard';
-import { ColumnService } from './services/column-service';
+import { ColumnService } from './services/api/column-service';
 import { AdminSectionComponent } from './common-components/admin-part-button/admin-section.component';
 import { MainPanelComponent } from './admin-part/main-panel/main-panel.component';
 import { ColumnSettingsComponent } from './admin-part/column-settings/column-settings.component';

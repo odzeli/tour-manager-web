@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Tour } from '../models/tour';
-import { DashboardService } from '../services/dashboard-service'
+import { DashboardService } from '../services/api/dashboard-service'
 import { AppHeaderService } from '../services/app-header-service';
 import { IdentityAuthService } from '../identity/identity-auth.service';
 @Component({
