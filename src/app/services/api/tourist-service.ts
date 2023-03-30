@@ -4,6 +4,7 @@ import { Row } from "../../models/AboutColumn/rows";
 import { ColumnValue } from "../../models/aboutColumn/columnValue";
 import { Injectable } from "@angular/core";
 import { BaseService } from "./base-service";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class TouristService extends BaseService {
@@ -23,7 +24,7 @@ export class TouristService extends BaseService {
     return this.http.post(this.touristApi, touristValues);
   }
 
-  touristRows(tourId: string) {
+  touristRows(tourId: string): Observable<Row[]> {
     return this.http.get<Row[]>(this.touristApi + `/${tourId}/touristRows/`);
   }
 

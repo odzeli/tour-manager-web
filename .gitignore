@@ -45,3 +45,10 @@ testem.log
 .DS_Store
 Thumbs.db
 .vscode/settings.json
+/src/.vs/VSWorkspaceState.json
+/src/.vs/src/v17/.suo
+/src/.vs/src/v17
+/src/.vs/src/FileContentIndex/read.lock
+/src/.vs/src/FileContentIndex/de4c64e9-6b03-4120-9470-73e88787ec62.vsidx
+/src/.vs/src/FileContentIndex/10e8c0c0-a677-4c7d-afed-3b48051788c8.vsidx
+/src/.vs/slnx.sqlite

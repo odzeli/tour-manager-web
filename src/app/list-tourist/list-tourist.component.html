@@ -1,7 +1,7 @@
 <div class="padding-10" *ngIf="tableInitialized">
   <table mat-table [dataSource]="touristDataSource" class="mat-elevation-z8 tourists-table">
 
-    <ng-container *ngFor="let columnCode of displayedColumns.stringColumns" [matColumnDef]="columnCode">
+    <ng-container *ngFor="let columnCode of displayedColumns.stringColumns" [matColumnDef]="columnCode" [sticky]="isSticky(columnCode)">
       <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
       <mat-cell *matCellDef="let row" [satPopoverAnchor]="popover"
       (click)="popover.open()">

@@ -11,6 +11,8 @@ import { SplittedColumns } from '../models/aboutColumn/splitted-columns';
 import { ColumnValueType } from '../models/enums/column-value-type';
 import { AppHeaderService } from '../services/app-header-service';
 import { DatePipe } from '@angular/common';
+import { Row } from '../models/AboutColumn/rows';
+import { WellKnownColumns } from '../constants/well-known-columns';
 
 @Component({
   selector: 'app-list-tourist',
@@ -21,14 +23,14 @@ export class ListTouristComponent implements OnInit {
   tourId: string;
   tourists: Tourist[];
   displayedColumns: SplittedColumns;
-  touristDataSource: MatTableDataSource<any[]>;
+  touristDataSource: MatTableDataSource<Row>;
   tourStartDate: Date;
-  touristRows: any[] = [];
+  touristRows: Row[] = [];
   tableInitialized: boolean = false;
   allColumns: string[] = [];
   touristIdField = 'touristId';
   columnValueType = ColumnValueType;
-  columnCodeToNameMap: {[k: string]: string } = {};
+  columnCodeToNameMap: { [k: string]: string } = {};
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -50,7 +52,7 @@ export class ListTouristComponent implements OnInit {
     this.tourService.getTourStartDate(this.tourId).subscribe(
       res => {
         this.tourStartDate = res;
-        const headerState = {pageName: `Список туристов от ${this.datePipe.transform(this.tourStartDate, 'dd/MM/yyyy')}`, extraButtons: ['addTourist'], tourId: this.tourId}
+        const headerState = { pageName: `Список туристов от ${this.datePipe.transform(this.tourStartDate, 'dd/MM/yyyy')}`, extraButtons: ['addTourist'], tourId: this.tourId }
         this.appHeaderService.setData(headerState);
       }
     );
@@ -78,9 +80,8 @@ export class ListTouristComponent implements OnInit {
     this.touristService.touristRows(this.tourId)
       .subscribe(rowsValues => {
         rowsValues.forEach(rowValues => {
-          let row: { [k: string]: any } = {};
-          this.touristIdField = 'touristId';
-          row[this.touristIdField] = rowValues.touristId;
+          let row = new Row();
+          row.touristId = rowValues.touristId;
           rowValues.values.forEach(value => {
             row[value.columnCode] = value.value;
             this.columnCodeToNameMap[value.columnCode] = value.columnName;
@@ -97,7 +98,7 @@ export class ListTouristComponent implements OnInit {
     // this.touristDataSource.sort = this.sort;
   }
 
-  update(touristId: any, columnCode: string, value: any,  columnValueType: ColumnValueType, row: { [k: string]: any }): void {
+  update(touristId: any, columnCode: string, value: any, columnValueType: ColumnValueType, row: { [k: string]: any }): void {
 
     if (value == null) { return; }
 
@@ -113,6 +114,10 @@ export class ListTouristComponent implements OnInit {
       },
       err => { }
     );
-}
+  }
+
+  isSticky(columnCode) {
+    return columnCode == WellKnownColumns.touristName || columnCode == WellKnownColumns.touristPhone;
+  }
 
 }
