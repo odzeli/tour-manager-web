@@ -1,18 +1,21 @@
 @import './colors.scss';
 
-.width-30-percent {
+.tm-width-30-percent {
   width: 30%;
 }
-.width-45-percent {
+.tm-width-45-percent {
   width: 45%;
+}
+.tm-width-50-percent {
+  width: 50%;
 }
 .width-100-percent {
   width: 100%;
 }
-.height-100-percent {
+.tm-height-100-percent {
   height: 100%;
 }
-.min-height-100-percent {
+.tm-min-height-100-percent {
   min-height: 100%;
 }
 .float-right {

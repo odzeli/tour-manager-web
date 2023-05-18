@@ -1,0 +1,66 @@
+<mat-list>
+  <div class="tm-margin-top-10 tm-margin-left-10">
+    <p class="tm-margin-top-10 tm-margin-left-10"><b>Количество туристов по дням</b></p>
+    <section class="tm-flex-wrap">
+      <div class="tm-width-30-percent tm-display-flex" *ngFor="let day of touristsAmountPerDay; let index = index"
+        [ngClass]="{'tm-is-today': isToday(day.date)}">
+        <mat-list-item>
+          <div>
+            <span class="tm-secondary-text-color">{{index + 1}}. {{day.date | date:'dd/MM/yyyy'}}: </span>
+            <span>{{day.touristAmount}} ч.</span>
+          </div>
+        </mat-list-item>
+      </div>
+    </section>
+  </div>
+</mat-list>
+<hr />
+
+<div class="tm-margin-top-10 tm-margin-left-10">
+  <p><b>Информация:</b></p>
+  <section class="tm-margin-left-10 tm-flex-wrap">
+    <div class="tm-display-flex tm-width-50-percent">
+      <mat-icon>group</mat-icon>
+      <div class="tm-text-near-icon">
+        <span>Гиды: </span>
+        <span class="tm-secondary-text-color">{{tourMainInfo.guides}}</span>
+      </div>
+    </div>
+    <div class="tm-display-flex tm-width-50-percent tm-margin-top-10">
+      <mat-icon>directions_bus</mat-icon>
+      <div class="tm-text-near-icon">
+        <span>Водители: </span>
+        <span class="tm-secondary-text-color">{{tourMainInfo.drivers}}</span>
+      </div>
+    </div>
+    <div class="tm-display-flex tm-width-50-percent tm-margin-top-10">
+      <mat-icon>scatter_plot</mat-icon>
+      <div class="tm-text-near-icon">
+        <span>Туристов сегодня: </span>
+        <span class="tm-secondary-text-color"></span>
+      </div>
+    </div>
+    <div class="tm-display-flex tm-width-50-percent tm-margin-top-10">
+      <mat-icon>first_page</mat-icon>
+      <div class="tm-text-near-icon">
+        <span>Первый день тура: </span>
+        <span class="tm-secondary-text-color">{{tourStartDay | date:'dd/MM/yyyy'}} </span>
+      </div>
+    </div>
+    <div class="tm-display-flex tm-width-50-percent tm-margin-top-10">
+      <mat-icon>last_page</mat-icon>
+      <div class="tm-text-near-icon">
+        <span>Последний день тура: </span>
+        <span class="tm-secondary-text-color">{{tourEndDay | date:'dd/MM/yyyy'}}</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="tm-display-flex tm-width-50-percent tm-margin-top-10 tm-padding-10">
+    <mat-icon>comment</mat-icon>
+    <div class="tm-text-near-icon">
+      <span>Комментарии к туру: </span>
+      <span class="tm-secondary-text-color"></span>
+    </div>
+  </div>
+</div>

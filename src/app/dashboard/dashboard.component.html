@@ -1,16 +1,28 @@
 <section>
   <div class="flex-direction-row width-100-percent">
 
-    <mat-card *ngFor="let tour of tours" class="margin-10 tour-card">
+    <mat-card *ngFor="let tour of tours" class="tm-margin-10 tour-card">
       <mat-card-title>
         <a [routerLink]="['/list-tourists', tour.id]">
-          Тур от {{tour.startDate | date: 'dd/MM/yyyy' }}
+          Тур от {{tour.startDate}}
         </a>
+
+        <button mat-icon-button color="primary" class="float-right" matTooltip="Удалить тур" (click)="deleteTour(tour.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+
         <a [routerLink]="['/creating-tourist', tour.id]">
           <button mat-icon-button color="primary" class="float-right" matTooltip="Добавить туриста">
             <mat-icon>add</mat-icon>
           </button>
         </a>
+
+        <a [routerLink]="['/edit-tour', tour.id]">
+          <button mat-icon-button color="primary" class="float-right" matTooltip="Редактировать тур">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </a>
+
       </mat-card-title>
 
       <mat-card-content>

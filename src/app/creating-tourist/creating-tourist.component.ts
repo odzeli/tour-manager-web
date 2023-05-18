@@ -9,6 +9,7 @@ import { ColumnValueType } from '../models/enums/column-value-type';
 import { ColumnValue } from '../models/aboutColumn/columnValue';
 import { TouristValues } from '../models/touristValues';
 import { AppHeaderService } from '../services/app-header-service';
+import { Tour } from '../models/tour';
 
 @Component({
   selector: 'app-creating-tourist',
@@ -18,7 +19,7 @@ import { AppHeaderService } from '../services/app-header-service';
 export class CreatingTouristComponent implements OnInit {
   creatingTouristForm: FormGroup;
   tourId: string;
-  tourStartDate: Date;
+  tourMainInfo: Tour;
   columns: Column[];
   formInitiated: boolean;
   columnValueType = ColumnValueType;
@@ -47,11 +48,11 @@ export class CreatingTouristComponent implements OnInit {
       this.tourId = params.get("tourId") as string;
     });
 
-    this.tourService.getTourStartDate(this.tourId).subscribe(
+    this.tourService.tourMainInfo(this.tourId).subscribe(
       res => {
-        this.tourStartDate = res;
+        this.tourMainInfo = res;
         const headerState = {
-          pageName: `Добавление туриста в тур от ${this.datePipe.transform(this.tourStartDate, 'dd/MM/yyyy')}`,
+          pageName: `Добавление туриста в тур от ${this.tourMainInfo.startDate}`,
           extraButtons: ['']
         }
         this.appHeaderService.setData(headerState);

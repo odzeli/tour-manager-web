@@ -10,9 +10,11 @@ import { ColumnValue } from '../models/aboutColumn/columnValue';
 import { SplittedColumns } from '../models/aboutColumn/splitted-columns';
 import { ColumnValueType } from '../models/enums/column-value-type';
 import { AppHeaderService } from '../services/app-header-service';
-import { DatePipe } from '@angular/common';
-import { Row } from '../models/AboutColumn/rows';
+import { Row } from '../models/aboutColumn/rows';
 import { WellKnownColumns } from '../constants/well-known-columns';
+import { Tour } from '../models/tour';
+import { TouristsAmountPerDay } from '../models/tourist-amount-per-day';
+import { TourMetaDataViewMode } from '../models/enums/tour-metadata-enum';
 
 @Component({
   selector: 'app-list-tourist',
@@ -24,13 +26,19 @@ export class ListTouristComponent implements OnInit {
   tourists: Tourist[];
   displayedColumns: SplittedColumns;
   touristDataSource: MatTableDataSource<Row>;
-  tourStartDate: Date;
+  tourMainInfo: Tour;
   touristRows: Row[] = [];
   tableInitialized: boolean = false;
   allColumns: string[] = [];
   touristIdField = 'touristId';
   columnValueType = ColumnValueType;
   columnCodeToNameMap: { [k: string]: string } = {};
+  tourDataViewMode: number = TourMetaDataViewMode.TourMetadata;
+  tourMetaDataViewMode = TourMetaDataViewMode;
+
+  touristsAmountPerDay: TouristsAmountPerDay[] = [];
+  tourStartDay: Date;
+  tourEndDay: Date;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -38,7 +46,6 @@ export class ListTouristComponent implements OnInit {
     private tourService: TourService,
     private columnService: ColumnService,
     private appHeaderService: AppHeaderService,
-    private datePipe: DatePipe,
   ) { }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -49,15 +56,16 @@ export class ListTouristComponent implements OnInit {
       this.tourId = params.get("tourId") as string;
     });
 
-    this.tourService.getTourStartDate(this.tourId).subscribe(
+    this.tourService.tourMainInfo(this.tourId).subscribe(
       res => {
-        this.tourStartDate = res;
-        const headerState = { pageName: `Список туристов от ${this.datePipe.transform(this.tourStartDate, 'dd/MM/yyyy')}`, extraButtons: ['addTourist'], tourId: this.tourId }
+        this.tourMainInfo = res;
+        const headerState = { pageName: `Список туристов от ${this.tourMainInfo.startDate}`, extraButtons: ['addTourist'], tourId: this.tourId };
         this.appHeaderService.setData(headerState);
       }
     );
 
     this.columnsCode(this.tourId);
+
   }
 
   columnsCode(tourId: string): void {
@@ -67,7 +75,8 @@ export class ListTouristComponent implements OnInit {
         this.allColumns = [
           ...this.displayedColumns.stringColumns,
           ...this.displayedColumns.dateColumns,
-          ...this.displayedColumns.numberColumns,
+          ...this.displayedColumns.integerColumns,
+          ...this.displayedColumns.decimalColumns,
           ...this.displayedColumns.guidColumns,
           ...this.displayedColumns.boolColumns];
 
@@ -87,7 +96,9 @@ export class ListTouristComponent implements OnInit {
             this.columnCodeToNameMap[value.columnCode] = value.columnName;
           });
           this.touristRows.push(row);
+
         });
+        this.calculateTouristsAmountPerDay();
         this.initTable();
       });
   }
@@ -108,16 +119,54 @@ export class ListTouristComponent implements OnInit {
     columnValue.value = value;
     row[columnCode] = value;
 
-    this.touristService.update(this.tourId, touristId, columnCode, columnValue).subscribe(
-      res => {
-
-      },
-      err => { }
-    );
+    this.touristService.update(this.tourId, touristId, columnCode, columnValue).subscribe();
   }
 
   isSticky(columnCode) {
     return columnCode == WellKnownColumns.touristName || columnCode == WellKnownColumns.touristPhone;
+  }
+
+  private calculateTouristsAmountPerDay() {
+    let allTourDates = this.calculateAllTourDates();
+
+    allTourDates.forEach(date => {
+      this.touristsAmountPerDay.push({ date: new Date(date.valueOf()), touristAmount: 0 })
+    })
+
+
+    this.touristsAmountPerDay.forEach(amount => {
+      let currentDate = amount.date.valueOf();
+      for (let i in this.touristRows) {
+        let row = this.touristRows[i];
+        let startDate = new Date(row[WellKnownColumns.tourStartDate]).valueOf();
+        let endDate = new Date(row[WellKnownColumns.tourEndDate]).valueOf();
+        if (startDate <= currentDate && endDate >= currentDate) {
+          amount.touristAmount++;
+        }
+      }
+    })
+
+  }
+
+  private calculateAllTourDates(): Date[] {
+    this.touristRows.forEach(row => {
+      let startDate = new Date(row[WellKnownColumns.tourStartDate]);
+      let endDate = new Date(row[WellKnownColumns.tourEndDate]);
+      this.tourStartDay = this.tourStartDay == null ? new Date(startDate) : this.tourStartDay;
+      this.tourEndDay = this.tourEndDay == null ? new Date(endDate) : this.tourEndDay;
+      this.tourStartDay = startDate != null && startDate < this.tourStartDay ? new Date(startDate) : new Date(this.tourStartDay);
+      this.tourEndDay = endDate != null && endDate > this.tourEndDay ? new Date(endDate) : new Date(this.tourEndDay);
+    })
+
+    let allTourDates: Date[] = [];
+    let iterableDate: Date = new Date(this.tourStartDay);
+    while (iterableDate <= this.tourEndDay) {
+      allTourDates.push(new Date(iterableDate));
+      iterableDate.setDate(iterableDate.getDate() + 1);
+      iterableDate = new Date(iterableDate);
+    }
+
+    return allTourDates;
   }
 
 }

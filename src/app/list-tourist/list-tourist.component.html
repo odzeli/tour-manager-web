@@ -1,51 +1,93 @@
-<div class="padding-10" *ngIf="tableInitialized">
-  <table mat-table [dataSource]="touristDataSource" class="mat-elevation-z8 tourists-table">
+<mat-drawer-container class="tm-padding-10" *ngIf="tableInitialized"
+  class="mat-sidenav-container tm-height-100-percent">
 
-    <ng-container *ngFor="let columnCode of displayedColumns.stringColumns" [matColumnDef]="columnCode" [sticky]="isSticky(columnCode)">
-      <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
-      <mat-cell *matCellDef="let row" [satPopoverAnchor]="popover"
-      (click)="popover.open()">
-      {{row[columnCode]}}
+  <!-- sidenav -->
+  <mat-drawer #drawer mode="over" class="mat-sidenav tm-sidenav-styling tm-padding-10">
+    <mat-radio-group color="primary" aria-label="Select view mode" class="tm-margin-left-10" [(ngModel)]="tourDataViewMode">
+      <mat-radio-button [value]="tourMetaDataViewMode.TourMetadata">Детали тура</mat-radio-button>
+      <mat-radio-button [value]="tourMetaDataViewMode.TourExpenses" class="tm-margin-left-10">Расходы</mat-radio-button>
+    </mat-radio-group>
 
-        <sat-popover #popover hasBackdrop xAlign="start" yAlign="start"
-          (closed)="update(row['touristId'], columnCode, $event, columnValueType.string, row)">
-          <app-inline-edit [value]="row[columnCode]"  [datePicker]="false"></app-inline-edit>
-        </sat-popover>
-      </mat-cell>
-    </ng-container>
+    <app-tour-metadata *ngIf="tourDataViewMode == tourMetaDataViewMode.TourMetadata"
+      [touristsAmountPerDay]="touristsAmountPerDay" [tourMainInfo]="tourMainInfo" [tourStartDay]="tourStartDay"
+      [tourEndDay]="tourEndDay">
+    </app-tour-metadata>
 
-    <ng-container *ngFor="let columnCode of displayedColumns.dateColumns" [matColumnDef]="columnCode">
-      <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
-      <mat-cell *matCellDef="let row" [satPopoverAnchor]="popover" (click)="popover.open()">
-        {{row[columnCode] | date : "dd/MM/yyyy"}}
+    <app-tour-expenses *ngIf="tourDataViewMode == tourMetaDataViewMode.TourExpenses"
+      [tourId]="tourId"></app-tour-expenses>
 
-        <sat-popover #popover hasBackdrop xAlign="start" yAlign="start"
-          (closed)="update(row['touristId'], columnCode, $event, columnValueType.dateTime, row)">
-          <app-inline-edit [dateValue]="row[columnCode]" [datePicker]="true"></app-inline-edit>
-        </sat-popover>
-      </mat-cell>
-    </ng-container>
+  </mat-drawer>
 
-    <ng-container *ngFor="let columnCode of displayedColumns.numberColumns" [matColumnDef]="columnCode">
-      <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row[columnCode]}}
+  <div class="tm-margin-top-10 tm-margin-bottom-10 tm-margin-left-10">
+    <button mat-stroked-button (click)="drawer.toggle()" class="tm-open-sidenav-action" color="primary"> <mat-icon>more_vert</mat-icon> Детали
+      тура</button>
+  </div>
+  <div class="tm-margin-10">
+    <table mat-table [dataSource]="touristDataSource" class="mat-elevation-z8 tourists-table mat-sidenav-content">
 
-      </mat-cell>
-    </ng-container>
+      <ng-container *ngFor="let columnCode of displayedColumns.stringColumns" [matColumnDef]="columnCode"
+        [sticky]="isSticky(columnCode)">
+        <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
+        <mat-cell *matCellDef="let row" [satPopoverAnchor]="popover" (click)="popover.open()">
+          {{row[columnCode]}}
 
-    <ng-container *ngFor="let columnCode of displayedColumns.guidColumns" [matColumnDef]="columnCode">
-      <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
-    </ng-container>
+          <sat-popover #popover hasBackdrop xAlign="start" yAlign="start"
+            (closed)="update(row['touristId'], columnCode, $event, columnValueType.string, row)">
+            <app-inline-edit [value]="row[columnCode]" [columnValueType]="columnValueType.string"></app-inline-edit>
+          </sat-popover>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container *ngFor="let columnCode of displayedColumns.dateColumns" [matColumnDef]="columnCode">
+        <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
+        <mat-cell *matCellDef="let row" [satPopoverAnchor]="popover" (click)="popover.open()">
+          {{row[columnCode] | date : "dd/MM/yyyy"}}
+
+          <sat-popover #popover hasBackdrop xAlign="start" yAlign="start"
+            (closed)="update(row['touristId'], columnCode, $event, columnValueType.dateTime, row)">
+            <app-inline-edit [dateValue]="row[columnCode]"
+              [columnValueType]="columnValueType.dateTime"></app-inline-edit>
+          </sat-popover>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container *ngFor="let columnCode of displayedColumns.integerColumns" [matColumnDef]="columnCode">
+        <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
+        <mat-cell *matCellDef="let row" [satPopoverAnchor]="popover" (click)="popover.open()">{{row[columnCode]}}
+
+          <sat-popover #popover hasBackdrop xAlign="start" yAlign="start"
+            (closed)="update(row['touristId'], columnCode, $event, columnValueType.int, row)">
+            <app-inline-edit [value]="row[columnCode]" [columnValueType]="columnValueType.int"></app-inline-edit>
+          </sat-popover>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container *ngFor="let columnCode of displayedColumns.decimalColumns" [matColumnDef]="columnCode">
+        <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
+        <mat-cell *matCellDef="let row" [satPopoverAnchor]="popover" (click)="popover.open()">{{row[columnCode]}}
+
+          <sat-popover #popover hasBackdrop xAlign="start" yAlign="start"
+            (closed)="update(row['touristId'], columnCode, $event, columnValueType.decimal, row)">
+            <app-inline-edit [value]="row[columnCode]" [columnValueType]="columnValueType.decimal"></app-inline-edit>
+          </sat-popover>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container *ngFor="let columnCode of displayedColumns.guidColumns" [matColumnDef]="columnCode">
+        <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
+      </ng-container>
 
 
-    <ng-container *ngFor="let columnCode of displayedColumns.boolColumns" [matColumnDef]="columnCode">
-      <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
-    </ng-container>
+      <ng-container *ngFor="let columnCode of displayedColumns.boolColumns" [matColumnDef]="columnCode">
+        <mat-header-cell *matHeaderCellDef>{{columnCodeToNameMap[columnCode]}}</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row[columnCode]}}</mat-cell>
+      </ng-container>
 
-    <mat-header-row *matHeaderRowDef="allColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: allColumns"></mat-row>
+      <mat-header-row *matHeaderRowDef="allColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: allColumns"></mat-row>
 
-  </table>
-</div>
+    </table>
+  </div>
+
+</mat-drawer-container>

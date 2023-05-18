@@ -6,13 +6,28 @@
     <mat-hint align="end">{{changingValue?.length || 0}}/140</mat-hint>
   </mat-form-field> -->
 
-  <mat-form-field *ngIf="!isDatePicker">
+  <mat-form-field *ngIf="columnValueType == columnTypesEnum.string">
     <input matInput maxLength="140" name="changingValue" [(ngModel)]="changingValue" autocomplete="off">
     <mat-hint align="end">{{changingValue?.length || 0}}/140</mat-hint>
   </mat-form-field>
-  <div *ngIf="datePicker">
-    <ngx-datepicker name="dateChangingValue" [(ngModel)]="dateChangingValue"></ngx-datepicker>
-  </div>
+
+  <!-- todo only integer type can be typed -->
+  <mat-form-field *ngIf="columnValueType == columnTypesEnum.int">
+    <input matInput type="number" name="changingValue" [(ngModel)]="changingValue" autocomplete="off">
+    <mat-hint align="end">{{changingValue?.length || 0}}/140</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="columnValueType == columnTypesEnum.decimal">
+    <input matInput type="number" name="changingValue" [(ngModel)]="changingValue" autocomplete="off">
+    <mat-hint align="end">{{changingValue?.length || 0}}/140</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="columnValueType == columnTypesEnum.dateTime" appearance="fill">
+    <input matInput [matDatepicker]="datepicker" [formControl]="dateChangingValue">
+    <mat-hint>ДД/MM/ГГГГ</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+    <mat-datepicker #datepicker></mat-datepicker>
+  </mat-form-field>
 
 
   <div class="actions">

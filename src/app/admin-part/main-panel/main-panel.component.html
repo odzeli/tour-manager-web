@@ -1,9 +1,13 @@
-<mat-sidenav-container class="min-height-100-percent width-100-percent">
+<mat-sidenav-container class="tm-min-height-100-percent width-100-percent">
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="side-menu">
     <div class="admin-menu-list-title">
-      Админ меню
+      Меню
     </div>
     <mat-divider></mat-divider>
+
+    <mat-action-list>
+      <button mat-list-item (click)="toggleMenuItem(menuItem.import)"> Импорт </button>
+    </mat-action-list>
 
     <mat-action-list>
       <button mat-list-item (click)="toggleMenuItem(menuItem.columnSettings)"> Настройка колонок </button>
@@ -15,8 +19,15 @@
       <mat-icon>{{opened ? 'chevron_left' : 'chevron_right'}}</mat-icon>
     </button>
     <mat-divider></mat-divider>
-    <button mat-raised-button color="primary" class="add-new-column" *ngIf="allColumnSettingsOpened" (click)="addNewColumn()">Добавить новую колонку</button>
-    <app-columns *ngIf="allColumnSettingsOpened" class="padding-10"></app-columns>
-    <app-column-settings *ngIf="columnSettingsOpened"></app-column-settings>
+
+    <button mat-raised-button color="primary" class="add-new-column" *ngIf="router.url === columnsComponent"
+      (click)="addNewColumn()">Добавить новую колонку</button>
+
+    <app-columns *ngIf="router.url === columnsComponent" class="tm-padding-10"></app-columns>
+
+    <app-column-settings *ngIf="router.url === columnStepperComponent"></app-column-settings>
+
+    <app-import-process *ngIf="router.url === importComponent"></app-import-process>
+
   </mat-sidenav-content>
 </mat-sidenav-container>

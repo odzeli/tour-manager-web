@@ -2,9 +2,9 @@
   <mat-card class="width-100-percent">
     <mat-card-title>Добавление нового тура</mat-card-title>
 
-    <form [formGroup]="tourForm" autocomplete="off" novalidate (ngSubmit)="createTour(tourForm.value)">
+    <form [formGroup]="tourForm" autocomplete="off" novalidate (ngSubmit)="saveTour(tourForm.value)">
       <mat-card-content>
-        <div class="display-flex flex-direction-column">
+        <div class="tm-display-flex tm-flex-direction-column">
           <mat-form-field>
             <input matInput [matDatepicker]="picker" placeholder="Выберите дату начала тура" formControlName="startDate"
               id="startDate" readonly (click)="picker.open()">
@@ -25,7 +25,7 @@
 
       <mat-card-actions>
         <button type="button" mat-raised-button color="warn" (click)="onCancel()">Отменить</button>
-        <button mat-raised-button color="primary" [disabled]="!tourForm.valid">Создать</button>
+        <button mat-raised-button color="primary" [disabled]="!tourForm.valid">Сохранить</button>
       </mat-card-actions>
     </form>
   </mat-card>

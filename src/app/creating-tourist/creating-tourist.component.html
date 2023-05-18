@@ -3,56 +3,28 @@
     <form [formGroup]="creatingTouristForm" autocomplete="off" novalidate
       (ngSubmit)="addTourist(creatingTouristForm.value)">
       <mat-card-content>
-        <div class="display-flex flex-wrap justify-content-space-around">
+        <div class="tm-display-flex tm-flex-wrap justify-content-space-around">
 
-          <mat-card class="width-45-percent margin-bottom-15">
+          <mat-card class="tm-width-45-percent tm-margin-bottom-15">
             <mat-card-content>
-              <div class="display-flex flex-wrap">
-                <mat-form-field *ngFor="let column of stringColumns" class="margin-left-10 width-30-percent">
+              <div class="tm-display-flex tm-flex-wrap">
+                <mat-form-field *ngFor="let column of stringColumns" class="tm-margin-left-10 tm-width-30-percent">
                   <mat-label>{{column.name}}</mat-label>
                   <input matInput type="text" [id]="column.code" [formControlName]="column.code"
                     [placeholder]="column.name" />
                 </mat-form-field>
-                <mat-form-field *ngFor="let column of numberColumns" class="margin-left-10 width-30-percent">
+                <mat-form-field *ngFor="let column of numberColumns" class="tm-margin-left-10 tm-width-30-percent">
                   <mat-label>{{column.name}}</mat-label>
                   <input matInput type="number" [id]="column.code" [formControlName]="column.code"
                     [placeholder]="column.name" />
                 </mat-form-field>
-                <div *ngFor="let column of dateColumns" class="margin-left-10 width-30-percent">
+                <div *ngFor="let column of dateColumns" class="tm-margin-left-10 tm-width-30-percent">
                   <mat-label>{{column.name}}</mat-label>
                   <ngx-datepicker [formControlName]="column.code"></ngx-datepicker>
                 </div>
               </div>
             </mat-card-content>
           </mat-card>
-
-          <!-- <mat-form-field class="margin-left-10 width-30-percent">
-            <mat-label>Дата рождения</mat-label>
-            <input matInput [matDatepicker]="birthdayPicker" id="birthday" formControlName="birthday" />
-            <mat-datepicker-toggle matSuffix [for]="birthdayPicker"></mat-datepicker-toggle>
-            <mat-datepicker #birthdayPicker></mat-datepicker>
-          </mat-form-field> -->
-
-          <!-- for comment -->
-          <!-- <mat-form-field class="margin-left-10 width-30-percent" appearance="fill">
-            <mat-label>Комментарий</mat-label>
-            <textarea matInput
-                      cdkTextareaAutosize
-                      #autosize="cdkTextareaAutosize"
-                      cdkAutosizeMinRows="1"
-                      cdkAutosizeMaxRows="5" id="comment" formControlName="comment" ></textarea>
-          </mat-form-field> -->
-
-          <!-- for predefined list -->
-          <!-- <mat-form-field class="margin-left-10 width-30-percent" appearance="fill">
-                  <mat-label>Тип номера</mat-label>
-                  <mat-select [(ngModel)]="selectedRoomType" name="room" id="apartmentType" formControlName="apartmentType">
-                    <mat-option *ngFor="let room of apartmentOptions" [value]="room.value">
-                      {{room.viewValue}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field> -->
-
         </div>
       </mat-card-content>
 

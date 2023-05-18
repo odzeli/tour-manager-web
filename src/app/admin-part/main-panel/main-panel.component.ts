@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppHeaderService } from '../../services/app-header-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-panel',
@@ -12,28 +13,38 @@ export class MainPanelComponent implements OnInit {
   opened: boolean = true;
   menuItem = MenuItem;
 
-  constructor(private appHeaderService: AppHeaderService) { }
+  //menus routing
+  columnsComponent: string = '/admin-part/columns'
+  columnStepperComponent: string = '/admin-part/columns/stepper'
+  importComponent: string = '/admin-part/import/stepper'
+
+  constructor(
+    public router: Router,
+    private appHeaderService: AppHeaderService
+  ) { }
 
   ngOnInit(): void {
-    const headerState = {pageName: "Панель администратора", extraButtons: [''] }
+    const headerState = { pageName: "Панель администратора", extraButtons: [''] }
     this.appHeaderService.setData(headerState);
   }
 
-  toggleMenuItem(menuItem: MenuItem){
-    switch(menuItem){
+  toggleMenuItem(menuItem: MenuItem) {
+    switch (menuItem) {
       case MenuItem.columnSettings:
-        this.allColumnSettingsOpened = true;
-        this.columnSettingsOpened = false;
+        this.router.navigate([this.columnsComponent]);
+        break;
+      case MenuItem.import:
+        this.router.navigate([this.importComponent]);
         break;
     }
   }
 
-  addNewColumn(){
-        this.allColumnSettingsOpened = false;
-        this.columnSettingsOpened = true;
+  addNewColumn() {
+    this.router.navigate([this.columnStepperComponent]);
   }
 
 }
 export enum MenuItem {
-  columnSettings
+  columnSettings = 0,
+  import = 1
 }

@@ -1,0 +1,38 @@
+<section class="tm-flex-direction-column tm-padding-10 tm-margin-top-10">
+  <div class="tm-margin-top-35 tm-new-expenses-container" *ngFor="let group of expenseGroups">
+    <p><b>{{group.groupName}}</b></p>
+    <mat-card>
+      <mat-card-content>
+        <div class="tm-display-flex" *ngFor="let expense of group.tourExpenses; let i = index">
+          <mat-form-field>
+            <mat-label>Расход {{i + 1}}</mat-label>
+            <input matInput type="text" [(ngModel)]="expense.expenseName">
+            <button *ngIf="expense" matSuffix mat-icon-button aria-label="Clear" (click)="expense.expenseName=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label class="tm-margin-left-10">{{expense.expenseName}}</mat-label>
+            <input matInput type="text" [(ngModel)]="expense.amount" class="tm-padding-left-10">
+            <button *ngIf="expense" matSuffix mat-icon-button aria-label="Clear" (click)="expense.amount=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <button mat-stroked-button (click)="addExpense(group.id)" color="primary">
+          <mat-icon>add</mat-icon> Новый расход
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+
+  <div class="tm-new-expenses-container tm-margin-top-10">
+    <button mat-stroked-button  class="tm-new-expenses-button" (click)="addExpenseGroup()" color="primary">
+      <mat-icon>add</mat-icon>
+      Новая группа
+    </button>
+  </div>
+</section>

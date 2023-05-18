@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { TouristValues } from "../../models/touristValues";
-import { Row } from "../../models/AboutColumn/rows";
 import { ColumnValue } from "../../models/aboutColumn/columnValue";
 import { Injectable } from "@angular/core";
 import { BaseService } from "./base-service";
 import { Observable } from "rxjs";
+import { Row } from "../../models/aboutColumn/rows";
 
 @Injectable()
 export class TouristService extends BaseService {

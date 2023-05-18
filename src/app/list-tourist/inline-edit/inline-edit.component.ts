@@ -1,6 +1,12 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input, Optional, Host, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { SatPopover } from '@ncstate/sat-popover';
+import * as moment from 'moment';
+import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { ColumnValueType } from 'src/app/models/enums/column-value-type';
+
 
 @Component({
   selector: 'app-inline-edit',
@@ -16,42 +22,58 @@ export class InlineEditComponent implements OnInit {
     this.changingValue = this._value = x;
   }
   private _value = '';
-  @Input() datePicker: boolean;
+  @Input() columnValueType: ColumnValueType;
 
-  @Input()
-  get dateValue(): Date { return this._dateValue; }
-  set dateValue(x: Date) {
-    this.dateChangingValue = this._dateValue = x;
-  }
-  private _dateValue = new Date();
-
-  isDatePicker: boolean = false;
+  @Input() dateValue: Date;
 
   /** Form model for the input. */
   changingValue = '';
-  dateChangingValue: Date;
+  dateChangingValue: FormControl;
+  columnTypesEnum = ColumnValueType;
+  subscribtions: Subscription[] = [];
 
-  constructor(@Optional() @Host() public popover: SatPopover) { }
+  pipe: DatePipe = new DatePipe('ru-RU');
+
+  constructor(
+    @Optional() @Host() public popover: SatPopover,
+    private datePipe: DatePipe
+  ) { }
 
   ngOnInit() {
     // subscribe to cancellations and reset form value
     if (this.popover) {
       this.popover.closed.pipe(filter(val => val == null))
-        .subscribe(() => this.changingValue = this.value || '');
+        .subscribe(() => {
+          this.changingValue = this.value || ''
+        });
     }
-    console.log(this.datePicker);
-    this.isDatePicker = this.datePicker;
+
+    //initialize part for Datepicker mode
+    this.dateChangingValue = new FormControl(this.dateValue);
+    if (this.columnValueType == ColumnValueType.dateTime) {
+      let subscribtion = this.dateChangingValue.valueChanges.subscribe((dateValue) => {
+        this.dateValue = new Date(dateValue);
+      });
+      this.subscribtions.push(subscribtion);
+    }
   }
 
-  onSubmit() {
+  ngOnDestroy() {
+    this.subscribtions.forEach(s => s.unsubscribe());
+  }
+
+  onSubmit(): void {
     if (this.popover) {
-      this.popover.close(this.changingValue);
+      const date = this.dateValue;
+      if (this.columnValueType == ColumnValueType.dateTime) this.popover.close(date);
+      else this.popover.close(this.changingValue);
     }
   }
 
-  onCancel() {
+  onCancel(): void {
     if (this.popover) {
       this.popover.close();
     }
   }
+
 }

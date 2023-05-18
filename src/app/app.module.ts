@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
@@ -28,21 +28,22 @@ import { MatListModule } from '@angular/material/list';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {MatRadioModule} from '@angular/material/radio';
 
-//defferent components
+// components
 import { SatPopoverModule } from '@ncstate/sat-popover';
-import { DatepickerModule } from 'ng2-datepicker';
 import { DatePipe } from '@angular/common';
 
 //services
 import { TourService } from './services/api/tour-service';
 import { TouristService } from './services/api/tourist-service';
 import { DashboardService } from './services/api/dashboard-service';
+import { ImportService } from './services/api/import-service'
 import { AppHeaderService } from './services/app-header-service';
 
 //custom components
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CreatingTourComponent } from './creating-tour/creating-tour.component';
+import { CreatingTourComponent } from './tour-wizard/creating-tour.component';
 import { BackArrowComponent } from './common-components/back-arrow/back-arrow.component';
 import { CreatingTouristComponent } from './creating-tourist/creating-tourist.component';
 import { ListTouristComponent } from './list-tourist/list-tourist.component';
@@ -57,6 +58,12 @@ import { ColumnsComponent } from './admin-part/columns/columns.component';
 import { SigninCallbackOidcComponent } from './identity/signin-callback-oidc/signin-callback-oidc.component';
 import { AuthInterceptor } from './guards/oidc-token-interceptor';
 import { SignoutCallbackOidcComponent } from './identity/signout-callback-oidc/signout-callback-oidc.component';
+import { DialogMenuComponent } from './common-components/dialog-menu/dialog-menu.component';
+import { ImportProcessComponent } from './admin-part/import-process/import-process.component';
+import { FileUploaderComponent } from './common-components/file-uploader/file-uploader.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { TourMetadataComponent } from './tour-metadata/tour-metadata.component';
+import { TourExpensesComponent } from './tour-expenses/tour-expenses.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +81,12 @@ import { SignoutCallbackOidcComponent } from './identity/signout-callback-oidc/s
     ColumnsComponent,
     SigninCallbackOidcComponent,
     SignoutCallbackOidcComponent,
+    DialogMenuComponent,
+    ImportProcessComponent,
+    FileUploaderComponent,
+    TourMetadataComponent,
+    TourExpensesComponent
+
   ],
   imports: [
     BrowserModule,
@@ -98,13 +111,13 @@ import { SignoutCallbackOidcComponent } from './identity/signout-callback-oidc/s
     MatSortModule,
     MatTooltipModule,
     SatPopoverModule,
-    DatepickerModule,
     MatSidenavModule,
     MatListModule,
     MatStepperModule,
     MatButtonToggleModule,
     DragDropModule,
-
+    MatProgressBarModule,
+    MatRadioModule
   ],
   exports: [
     MatDatepickerModule,
@@ -113,9 +126,11 @@ import { SignoutCallbackOidcComponent } from './identity/signout-callback-oidc/s
     MatStepperModule,
   ],
   providers: [
-    OidcAuthGuard, TouristService, TourService, DashboardService, ColumnService, AppHeaderService, DatePipe,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true },
+    OidcAuthGuard, TouristService, TourService, DashboardService, ColumnService, AppHeaderService, DatePipe, ImportService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

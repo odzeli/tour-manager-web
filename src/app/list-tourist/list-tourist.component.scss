@@ -1,4 +1,4 @@
-@import '../styles/colors.scss';
+@import "../styles/colors.scss";
 
 .tourists-table {
   width: 100%;
@@ -15,4 +15,26 @@
   mat-header-cell:first-of-type {
     padding-left: 5px;
   }
+}
+
+.tm-sidenav-styling {
+  width: 50%;
+}
+
+.tm-is-today {
+  color: red;
+}
+
+.tm-text-near-icon {
+  margin-top: 2px;
+  margin-left: 5px;
+}
+
+.tm-open-sidenav-action {
+  padding-left: 5px;
+  padding-right: 12px;
+}
+
+.tm-open-sidenav-action:hover {
+  cursor: pointer;
 }

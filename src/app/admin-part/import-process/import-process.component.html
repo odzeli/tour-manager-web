@@ -1,0 +1,14 @@
+<section class="tm-padding-10 tm-margin-left-20">
+
+  <form [formGroup]="firstFormGroup">
+    <ng-template matStepLabel>Fill out your name</ng-template>
+    <div appearance="fill">
+      <!-- file uploader -->
+      <app-file-uploader></app-file-uploader>
+    </div>
+    <div>
+      <button mat-raised-button (click)="importExcelFile()">Импорт</button>
+    </div>
+  </form>
+
+</section>

@@ -1,5 +1,5 @@
 export interface TourForCreation {
-  startDate: Date;
+  startDate: string;
   guides: string;
   drivers: string;
 }

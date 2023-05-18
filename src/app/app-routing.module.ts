@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CreatingTourComponent } from './creating-tour/creating-tour.component';
+import { CreatingTourComponent } from './tour-wizard/creating-tour.component';
 import { CreatingTouristComponent } from './creating-tourist/creating-tourist.component';
 import { ListTouristComponent } from './list-tourist/list-tourist.component';
 import { MainPanelComponent } from './admin-part/main-panel/main-panel.component';
@@ -22,9 +22,13 @@ const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [OidcAuthGuard] },
   { path: 'list-tourists/:tourId', component: ListTouristComponent, canActivate: [OidcAuthGuard] },
   { path: 'creating-tour', component: CreatingTourComponent, canActivate: [OidcAuthGuard] },
+  { path: 'edit-tour/:tourId', component: CreatingTourComponent, canActivate: [OidcAuthGuard] },
   { path: 'creating-tourist/:tourId', component: CreatingTouristComponent, canActivate: [OidcAuthGuard] },
+
   { path: 'admin-part', component: MainPanelComponent, canActivate: [OidcAuthGuard] },
-  { path: 'admin-part/column-settings', component: ColumnSettingsComponent, canActivate: [OidcAuthGuard] },
+  { path: 'admin-part/columns', component: MainPanelComponent, canActivate: [OidcAuthGuard] },
+  { path: 'admin-part/columns/stepper', component: MainPanelComponent, canActivate: [OidcAuthGuard] },
+  { path: 'admin-part/import/stepper', component: MainPanelComponent, canActivate: [OidcAuthGuard] },
   { path: '**', redirectTo: '' },
 ];
 
